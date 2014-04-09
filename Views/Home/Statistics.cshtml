@@ -1,0 +1,86 @@
+﻿@model IDictionary<GoodM8s.Basketball.Models.PlayerPartRecord, GoodM8s.Basketball.ViewModels.SportTotalsViewModel>
+@Html.Partial("NavigationPartial")
+<h2>
+    @ViewBag.Name Statistics</h2>
+<ul class="pagination">
+    @for (var i = 0; i <= ViewBag.GameIds.Count - 1; i++)
+    {
+        <li @if (ViewBag.GameId == @ViewBag.GameIds[i])
+            {<text> class="active"</text>}><a href='/@ViewContext.Controller.ValueProvider.GetValue("action").RawValue/@ViewBag.Id/@ViewBag.GameIds[i]'>@(i + 1)</a>
+        </li>   
+    }
+    <li @if (ViewBag.GameId == 0)
+        {<text> class="active"</text>}><a href='/@ViewContext.Controller.ValueProvider.GetValue("action").RawValue/@ViewBag.Id'>
+            All</a> </li>
+</ul>
+<br />
+Games Played: @ViewBag.Games
+<br />
+<br />
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Player
+            </th>
+            <th>
+                <a href="#" data-toggle="tooltip" title="Games played">GP</a>
+            </th>
+            <th>
+                <a href="#" data-toggle="tooltip" title="Free throws made">FT</a>
+            </th>
+            <th>
+                <a href="#" data-toggle="tooltip" title="Field goals made">FG</a>
+            </th>
+            <th>
+                <a href="#" data-toggle="tooltip" title="Three point field goals made">3FG</a>
+            </th>
+            <th>
+                <a href="#" data-toggle="tooltip" title="Personal fouls">PF</a>
+            </th>
+            <th>
+                <a href="#" data-toggle="tooltip" title="Points total">PTS</a>
+            </th>
+            <th>
+                <a href="#" data-toggle="tooltip" title="Points per game">PPG</a>
+            </th>
+            <th>
+                <a href="#" data-toggle="tooltip" title="Donuts! :(">DNT</a>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var key in Model.Keys.OrderBy(x => x.Number))
+        {
+            <tr>
+                <td>
+                    #@key.Number - @key.FirstName @key.LastName
+                </td>
+                <td>
+                    @Model[key].GamesPlayed
+                </td>
+                <td>
+                    @Model[key].FreeThrowsMade
+                </td>
+                <td>
+                    @Model[key].FieldGoalsMade
+                </td>
+                <td>
+                    @Model[key].ThreeFieldGoalsMade
+                </td>
+                <td>
+                    @Model[key].PersonalFouls
+                </td>
+                <td>
+                    @Model[key].Points
+                </td>
+                <td>
+                    @Model[key].PointsPerGame.ToString("0.00")
+                </td>
+                <td>
+                    @Model[key].Donuts
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

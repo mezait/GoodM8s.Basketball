@@ -1,0 +1,21 @@
+﻿@model GoodM8s.Basketball.ViewModels.SummaryViewModel
+@{
+    var gameDate = Model.GameDate.ToShortDateString() != DateTime.Now.ToShortDateString()
+        ? Model.GameDate.ToLongDateString()
+        : "Tonight";
+}
+@if (Model.Court == "None")
+{
+    <text><h3>@gameDate - * NO GAME *</h3>
+    <br />
+    We are currently @Model.Position on the ladder with @Model.Points points.</text>
+}
+else
+{
+    <text><h3>@gameDate @@ @Model.GameTime</h3>
+    <br />
+    @Model.Court vs @Model.Vs
+    <br />
+    We are currently @Model.Position on the ladder with @Model.Points points, @Model.Vs
+    are @Model.VsPosition with @Model.VsPoints points.</text>
+}

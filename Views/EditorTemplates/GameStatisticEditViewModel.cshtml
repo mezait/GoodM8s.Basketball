@@ -1,0 +1,38 @@
+﻿@using System.Globalization
+@using HtmlHelpers.BeginCollectionItem
+@model GoodM8s.Basketball.ViewModels.GameStatisticEditViewModel
+<tr class="statistic">
+    @using (Html.BeginCollectionItem("Game.GameStatistics"))
+    {
+        <td>
+            @Html.HiddenFor(x => x.Id)
+            @Html.DropDownListFor(model => model.PlayerId,
+                                      Model.Players.Select(s => new SelectListItem
+                                      {
+                                          Selected = s.Id == Model.PlayerId,
+                                          Text = s.FirstName + " " + s.LastName,
+                                          Value = s.Id.ToString(CultureInfo.InvariantCulture)
+                                      }))
+            @Html.ValidationMessageFor(model => model.PlayerId)
+        </td>
+        <td>
+            @Html.EditorFor(x => x.FieldGoalsMade)
+            @Html.ValidationMessageFor(x => x.FieldGoalsMade)
+        </td>
+        <td>
+            @Html.EditorFor(x => x.ThreeFieldGoalsMade)
+            @Html.ValidationMessageFor(x => x.ThreeFieldGoalsMade)
+        </td>
+        <td>
+            @Html.EditorFor(x => x.FreeThrowsMade)
+            @Html.ValidationMessageFor(x => x.FreeThrowsMade)
+        </td>
+        <td>
+            @Html.EditorFor(x => x.PersonalFouls)
+            @Html.ValidationMessageFor(x => x.PersonalFouls)
+        </td>
+        <td>
+            <a href="#" class="remove-statistic">Remove</a>
+        </td>
+    }
+</tr>

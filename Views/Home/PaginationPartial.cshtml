@@ -1,0 +1,8 @@
+﻿<ul class="pagination">
+    @for (var i = 1; i <= ViewBag.MaxRoundNumber + 3; i++)
+    {
+        <li @if (ViewBag.RoundNumber == i)
+            {<text> class="active"</text>}><a href='/@ViewContext.Controller.ValueProvider.GetValue("action").RawValue/@ViewBag.Id/@i'>@i</a>
+        </li>   
+    }
+</ul>

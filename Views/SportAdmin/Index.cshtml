@@ -1,0 +1,39 @@
+﻿@model GoodM8s.Basketball.ViewModels.DynamicIndexViewModel
+@{
+    Layout.Title = T("Sports").ToString();
+}
+<fieldset>
+    @using (Html.BeginFormAntiForgeryPost())
+    {
+        @Html.ValidationSummary()
+        <div class="manage">@Html.ActionLink(T("Add a new sport").ToString(), "Create", new { }, new { @class = "button primaryAction" })</div>
+        <table class="items">
+            <thead>
+                <tr>
+                    <th scope="col">@T("Name")
+                    </th>
+                    <th scope="col">@T("Season")
+                    </th>
+                    <th scope="col">@T("Actions")
+                    </th>
+                </tr>
+            </thead>
+            @foreach (var season in Model.List)
+            {
+                <tr>
+                    <td>@season.Name
+                    </td>
+                    <td>@season.Season
+                    </td>
+                    <td>
+                        <div>
+                            @Html.ActionLink(T("Edit").ToString(), "Edit", new { season.Id }) |
+                            @Html.ActionLink(T("Delete").ToString(), "Delete", new { season.Id }, new { itemprop = "RemoveUrl UnsafeUrl" })
+                        </div>
+                    </td>
+                </tr>
+            }
+        </table>
+    }
+    @Display(Model.Pager)
+</fieldset>

@@ -1,0 +1,10 @@
+﻿@{
+    Script.Require("ShapesBase");
+    Script.Include("jquery.goodm8s.game-edit.js").AtFoot();
+    Layout.Title = T("Edit Game").ToString();
+}
+@using (Html.BeginFormAntiForgeryPost())
+{
+    @Html.ValidationSummary()
+    @Display(Model)
+}

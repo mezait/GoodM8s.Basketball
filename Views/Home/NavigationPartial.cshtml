@@ -1,0 +1,12 @@
+﻿<br />
+<ul class="nav nav-pills">
+    @{
+        var action = ViewContext.Controller.ValueProvider.GetValue("action").RawValue.ToString().ToLower();
+    }
+    <li @if (action == "fixtures")
+            {<text> class="active"</text>}><a href="/fixtures/@ViewBag.Id">Fixtures</a> </li>
+    <li @if (action == "ladder")
+            {<text> class="active"</text>}><a href="/ladder/@ViewBag.Id">Ladder</a> </li>
+    <li @if (action == "statistics")
+            {<text> class="active"</text>}><a href="/statistics/@ViewBag.Id">Statistics</a> </li>
+</ul>

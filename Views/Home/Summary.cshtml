@@ -1,0 +1,17 @@
+﻿@model IEnumerable<GoodM8s.Basketball.ViewModels.SummaryViewModel>
+@{
+    var index = 0;
+}
+<div class="summary-container">
+    @foreach (var summary in @Model)
+    {
+        index++;
+    
+        @Html.Partial("SummaryViewModel", summary)
+
+        if (index < Model.Count())
+        {
+        <hr />
+        }
+    }
+</div>
