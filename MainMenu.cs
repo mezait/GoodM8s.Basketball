@@ -51,6 +51,11 @@ namespace GoodM8s.Basketball {
                                                                                             item.Action("Statistics", "Home", new {area = "GoodM8s.Basketball", sportId}));
 
                 index++;
+
+                builder.Add(T(sport.Name + " - Comparison"), String.Format("2.{0}", index), item =>
+                                                                                            item.Action("Vs", "Home", new {area = "GoodM8s.Basketball", sportId}));
+
+                index++;
             }
         }
     }

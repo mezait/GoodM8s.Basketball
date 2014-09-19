@@ -80,6 +80,7 @@
     <Content Include="Views\Shared\EditorTemplates\Collection.cshtml" />
     <Content Include="Views\Home\Summary.cshtml" />
     <Content Include="Views\Home\SummaryViewModel.cshtml" />
+    <Content Include="Views\Home\Vs.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Orchard\Orchard.Framework.csproj">
@@ -110,6 +111,7 @@
     <Compile Include="Handlers\PlayerHandler.cs" />
     <Compile Include="Handlers\SeasonHandler.cs" />
     <Compile Include="Handlers\SportHandler.cs" />
+    <Compile Include="Helpers\ScoreExtensions.cs" />
     <Compile Include="MainMenu.cs" />
     <Compile Include="Migrations.cs" />
     <Compile Include="Models\GamePart.cs" />
@@ -142,6 +144,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Services\GameStatisticService.cs" />
+    <Compile Include="ViewModels\CompareViewModel.cs" />
     <Compile Include="ViewModels\DynamicIndexViewModel.cs" />
     <Compile Include="ViewModels\GameEditViewModel.cs" />
     <Compile Include="ViewModels\GameStatisticEditViewModel.cs" />

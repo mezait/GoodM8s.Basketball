@@ -8,5 +8,7 @@
     <li @if (action == "ladder")
             {<text> class="active"</text>}><a href="/ladder/@ViewBag.Id">Ladder</a> </li>
     <li @if (action == "statistics")
-            {<text> class="active"</text>}><a href="/statistics/@ViewBag.Id">Statistics</a> </li>
+        {<text> class="active"</text>}><a href="/statistics/@ViewBag.Id">Statistics</a> </li>
+    <li @if (action == "vs")
+            {<text> class="active"</text>}><a href="/vs/@ViewBag.Id">Comparison</a> </li>
 </ul>

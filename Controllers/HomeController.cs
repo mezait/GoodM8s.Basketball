@@ -95,6 +95,70 @@ namespace GoodM8s.Basketball.Controllers {
             }
         }
 
+        /// <summary>
+        /// Figure out who we are playing this round
+        /// </summary>
+        /// <param name="fixId">Fixi Id</param>
+        /// <param name="round">Round number</param>
+        /// <returns>Team name of the team we are playing</returns>
+        private static string Vs(int fixId, int round) {
+            var dataSet = fixtures.GetYmcaFixtures(fixId, round);
+
+            var m8Query = from row in dataSet.Tables[0].AsEnumerable()
+                          where row.Field<string>("hometeamname") == "GOODM8S" ||
+                                row.Field<string>("awayteamname") == "GOODM8S"
+                          select row;
+
+            var m8Row = m8Query.FirstOrDefault();
+
+            if (m8Row != null) {
+                return m8Row["hometeamname"].ToString() == "GOODM8S"
+                           ? m8Row["awayteamname"].ToString()
+                           : m8Row["hometeamname"].ToString();
+            }
+
+            return String.Empty;
+        }
+
+        /// <summary>
+        /// Determine the vs score
+        /// </summary>
+        /// <param name="dataSet"><see cref="DataSet" /></param>
+        /// <param name="teamName">Team name</param>
+        /// <returns><see cref="CompareScoreVs"/> object</returns>
+        private static CompareScoreVs VsScore(DataSet dataSet, string teamName) {
+            var vsQuery = from row in dataSet.Tables[0].AsEnumerable()
+                          where row.Field<string>("hometeamname") == teamName ||
+                                row.Field<string>("awayteamname") == teamName
+                          select row;
+
+            var vsRow = vsQuery.FirstOrDefault();
+
+            if (vsRow == null) {
+                return null;
+            }
+
+            if (vsRow["hometeamname"].ToString() == teamName) {
+                return new CompareScoreVs {
+                    Bye = vsRow["court"].ToString() == "None" || vsRow["awayteamname"].ToString() == "BYE",
+                    Name = vsRow["awayteamname"].ToString(),
+                    Score = new CompareScore {
+                        Against = (int) vsRow["awayteamscore"],
+                        For = (int) vsRow["hometeamscore"]
+                    }
+                };
+            }
+
+            return new CompareScoreVs {
+                Bye = vsRow["court"].ToString() == "None" || vsRow["hometeamname"].ToString() == "BYE",
+                Name = vsRow["hometeamname"].ToString(),
+                Score = new CompareScore {
+                    Against = (int) vsRow["hometeamscore"],
+                    For = (int) vsRow["awayteamscore"]
+                }
+            };
+        }
+
         #endregion
 
         public ActionResult Fixtures(int sportId, int? round) {
@@ -191,7 +255,7 @@ namespace GoodM8s.Basketball.Controllers {
                     }
                 }
             }
-            
+
             ViewBag.Id = sportId;
             ViewBag.Name = sport.Name;
             ViewBag.GameId = gameId ?? 0;
@@ -211,6 +275,10 @@ namespace GoodM8s.Basketball.Controllers {
 
                 var dataSet = fixtures.GetYmcaFixtures(sport.FiXiId.GetValueOrDefault(), maxRoundNumber);
 
+                if (dataSet.Tables.Count <= 0) {
+                    continue;
+                }
+
                 // Fixtures
                 var fixtureQuery = from row in dataSet.Tables[0].AsEnumerable()
                                    where row.Field<string>("hometeamname") == "GOODM8S" ||
@@ -219,12 +287,20 @@ namespace GoodM8s.Basketball.Controllers {
 
                 var fixtureRow = fixtureQuery.FirstOrDefault();
 
+                if (fixtureRow == null) {
+                    continue;
+                }
+
                 // Ladder
                 var ladderQuery = from row in dataSet.Tables[1].AsEnumerable()
                                   where row.Field<string>("teamname") == "GOODM8S"
                                   select row;
 
                 var ladderRow = ladderQuery.FirstOrDefault();
+
+                if (ladderRow == null) {
+                    continue;
+                }
 
                 // Ladder vs
                 var vsQuery = from row in dataSet.Tables[1].AsEnumerable()
@@ -241,13 +317,101 @@ namespace GoodM8s.Basketball.Controllers {
                     GameTime = fixtureRow["gametime"].ToString(),
                     Points = ladderRow["points"].ToString(),
                     Position = Ordinal((int) ladderRow["position"]),
-                    Vs = vsRow["teamname"].ToString(),
-                    VsPoints = vsRow["points"].ToString(),
-                    VsPosition = Ordinal((int) vsRow["position"])
+                    Vs = vsRow != null ? vsRow["teamname"].ToString() : String.Empty,
+                    VsPoints = vsRow != null ? vsRow["points"].ToString() : String.Empty,
+                    VsPosition = vsRow != null ? Ordinal((int) vsRow["position"]) : String.Empty
                 });
             }
 
             return View(summaries);
+        }
+
+        public ActionResult Vs(int sportId, int? round) {
+            var sport = _sportService.Get(sportId);
+
+            if (sport == null) {
+                return HttpNotFound();
+            }
+
+            var maxRoundNumber = MaximumRoundNumber(
+                sport.StartDate.GetValueOrDefault(),
+                sport.WeekOffset.GetValueOrDefault());
+
+            var roundNumber = round.HasValue
+                                  ? round.Value
+                                  : maxRoundNumber;
+
+            var vsTeamName = Vs(sport.FiXiId.GetValueOrDefault(), roundNumber);
+
+            ViewBag.Id = sport.Id;
+            ViewBag.Name = sport.Name;
+            ViewBag.MaxRoundNumber = maxRoundNumber;
+            ViewBag.RoundNumber = roundNumber;
+            ViewBag.VsTeam = vsTeamName;
+
+            var compareViewModel = new CompareViewModel();
+
+            for (var i = 1; i <= roundNumber - 1; i++) {
+                var dataSet = fixtures.GetYmcaFixtures(sport.FiXiId.GetValueOrDefault(), i);
+
+                var goodM8s = VsScore(dataSet, "GOODM8S");
+
+                if (!goodM8s.Bye) {
+                    if (!compareViewModel.Scores.ContainsKey(goodM8s.Name)) {
+                        var score = new Dictionary<string, IList<CompareScore>> {
+                            {
+                                "GOODM8S", new List<CompareScore> {
+                                    goodM8s.Score
+                                }
+                            }
+                        };
+
+                        compareViewModel.Scores.Add(goodM8s.Name, score);
+                    }
+                    else {
+                        var scores = compareViewModel.Scores[goodM8s.Name];
+
+                        if (!scores.ContainsKey("GOODM8S")) {
+                            scores.Add("GOODM8S", new List<CompareScore> {
+                                goodM8s.Score
+                            });
+                        }
+                        else {
+                            scores["GOODM8S"].Add(goodM8s.Score);
+                        }
+                    }
+                }
+
+                var vs = VsScore(dataSet, vsTeamName);
+
+                if (!vs.Bye) {
+                    if (!compareViewModel.Scores.ContainsKey(vs.Name)) {
+                        var score = new Dictionary<string, IList<CompareScore>> {
+                            {
+                                vsTeamName, new List<CompareScore> {
+                                    vs.Score
+                                }
+                            }
+                        };
+
+                        compareViewModel.Scores.Add(vs.Name, score);
+                    }
+                    else {
+                        var scores = compareViewModel.Scores[vs.Name];
+
+                        if (!scores.ContainsKey(vsTeamName)) {
+                            scores.Add(vsTeamName, new List<CompareScore> {
+                                vs.Score
+                            });
+                        }
+                        else {
+                            scores[vsTeamName].Add(vs.Score);
+                        }
+                    }
+                }
+            }
+
+            return View(compareViewModel);
         }
     }
 }

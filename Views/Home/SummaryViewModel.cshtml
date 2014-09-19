@@ -4,7 +4,7 @@
         ? Model.GameDate.ToLongDateString()
         : "Tonight";
 }
-@if (Model.Court == "None")
+@if (String.IsNullOrEmpty(Model.Court) || Model.Court == "None")
 {
     <text><h3>@gameDate - * NO GAME *</h3>
     <br />

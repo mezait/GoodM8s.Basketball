@@ -78,6 +78,23 @@ namespace GoodM8s.Basketball {
                             {"area", "GoodM8s.Basketball"}
                         },
                         new MvcRouteHandler())
+                },
+                new RouteDescriptor {
+                    Priority = 9,
+                    Route = new Route(
+                        "Vs/{sportId}/{round}",
+                        new RouteValueDictionary {
+                            {"area", "GoodM8s.Basketball"},
+                            {"controller", "Home"},
+                            {"action", "Vs"},
+                            {"sportId", 0},
+                            {"round", UrlParameter.Optional}
+                        },
+                        new RouteValueDictionary(),
+                        new RouteValueDictionary {
+                            {"area", "GoodM8s.Basketball"}
+                        },
+                        new MvcRouteHandler())
                 }
             };
         }
