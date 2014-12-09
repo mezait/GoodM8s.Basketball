@@ -6,6 +6,7 @@
         public int FreeThrowsMade { get; set; }
         public int PersonalFouls { get; set; }
         public int Donuts { get; set; }
+        public int FoulOuts { get; set; }
 
         public int Points {
             get { return FreeThrowsMade + (FieldGoalsMade*2) + (ThreeFieldGoalsMade*3); }

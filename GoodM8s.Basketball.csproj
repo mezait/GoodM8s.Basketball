@@ -70,6 +70,7 @@
     <Content Include="Scripts\jquery.goodm8s.game-edit.js" />
     <Content Include="Styles\menu.goodm8s-admin.css" />
     <Content Include="packages.config" />
+    <Content Include="Views\Home\Overview.cshtml" />
     <None Include="Views\Home\PaginationPartial.cshtml" />
     <Content Include="Web.config" />
     <Content Include="Views\Web.config" />

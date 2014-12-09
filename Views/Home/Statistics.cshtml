@@ -44,8 +44,11 @@ Games Played: @ViewBag.Games
             <th>
                 <a href="#" data-toggle="tooltip" title="Points per game">PPG</a>
             </th>
-            <th>
+            <th class="warning">
                 <a href="#" data-toggle="tooltip" title="Donuts! :(">DNT</a>
+            </th>
+            <th class="warning">
+                <a href="#" data-toggle="tooltip" title="Foul Outs! :(">FO</a>
             </th>
         </tr>
     </thead>
@@ -77,8 +80,11 @@ Games Played: @ViewBag.Games
                 <td>
                     @Model[key].PointsPerGame.ToString("0.00")
                 </td>
-                <td>
+                <td class="warning">
                     @Model[key].Donuts
+                </td>
+                <td class="warning">
+                    @Model[key].FoulOuts
                 </td>
             </tr>
         }

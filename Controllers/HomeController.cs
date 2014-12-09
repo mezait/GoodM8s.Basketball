@@ -13,6 +13,7 @@ using sneakyresults;
 namespace GoodM8s.Basketball.Controllers {
     [Themed]
     public class HomeController : Controller {
+        private const int MaxRounds = 26;
         private readonly IGameService _gameService;
         private readonly ISeasonService _seasonService;
         private readonly ISportService _sportService;
@@ -105,16 +106,16 @@ namespace GoodM8s.Basketball.Controllers {
             var dataSet = fixtures.GetYmcaFixtures(fixId, round);
 
             var m8Query = from row in dataSet.Tables[0].AsEnumerable()
-                          where row.Field<string>("hometeamname") == "GOODM8S" ||
-                                row.Field<string>("awayteamname") == "GOODM8S"
-                          select row;
+                where row.Field<string>("hometeamname") == "GOODM8S" ||
+                      row.Field<string>("awayteamname") == "GOODM8S"
+                select row;
 
             var m8Row = m8Query.FirstOrDefault();
 
             if (m8Row != null) {
                 return m8Row["hometeamname"].ToString() == "GOODM8S"
-                           ? m8Row["awayteamname"].ToString()
-                           : m8Row["hometeamname"].ToString();
+                    ? m8Row["awayteamname"].ToString()
+                    : m8Row["hometeamname"].ToString();
             }
 
             return String.Empty;
@@ -128,9 +129,9 @@ namespace GoodM8s.Basketball.Controllers {
         /// <returns><see cref="CompareScoreVs"/> object</returns>
         private static CompareScoreVs VsScore(DataSet dataSet, string teamName) {
             var vsQuery = from row in dataSet.Tables[0].AsEnumerable()
-                          where row.Field<string>("hometeamname") == teamName ||
-                                row.Field<string>("awayteamname") == teamName
-                          select row;
+                where row.Field<string>("hometeamname") == teamName ||
+                      row.Field<string>("awayteamname") == teamName
+                select row;
 
             var vsRow = vsQuery.FirstOrDefault();
 
@@ -173,8 +174,8 @@ namespace GoodM8s.Basketball.Controllers {
                 sport.WeekOffset.GetValueOrDefault());
 
             var roundNumber = round.HasValue
-                                  ? round.Value
-                                  : maxRoundNumber;
+                ? round.Value
+                : maxRoundNumber;
 
             ViewBag.Id = sport.Id;
             ViewBag.Name = sport.Name;
@@ -196,8 +197,8 @@ namespace GoodM8s.Basketball.Controllers {
                 sport.WeekOffset.GetValueOrDefault());
 
             var roundNumber = round.HasValue
-                                  ? round.Value
-                                  : maxRoundNumber;
+                ? round.Value
+                : maxRoundNumber;
 
             ViewBag.Id = sport.Id;
             ViewBag.Name = sport.Name;
@@ -242,15 +243,20 @@ namespace GoodM8s.Basketball.Controllers {
                         var fieldGoalsMade = statistic.FieldGoalsMade.GetValueOrDefault();
                         var threeFieldGoalsMade = statistic.ThreeFieldGoalsMade.GetValueOrDefault();
                         var freeThrowsMade = statistic.FreeThrowsMade.GetValueOrDefault();
+                        var personalFouls = statistic.PersonalFouls.GetValueOrDefault();
 
                         players[player].GamesPlayed++;
                         players[player].FieldGoalsMade += fieldGoalsMade;
                         players[player].ThreeFieldGoalsMade += threeFieldGoalsMade;
                         players[player].FreeThrowsMade += freeThrowsMade;
-                        players[player].PersonalFouls += statistic.PersonalFouls.GetValueOrDefault();
+                        players[player].PersonalFouls += personalFouls;
 
                         if (fieldGoalsMade + threeFieldGoalsMade + freeThrowsMade == 0) {
                             players[player].Donuts++;
+                        }
+
+                        if (personalFouls >= 5) {
+                            players[player].FoulOuts++;
                         }
                     }
                 }
@@ -281,9 +287,9 @@ namespace GoodM8s.Basketball.Controllers {
 
                 // Fixtures
                 var fixtureQuery = from row in dataSet.Tables[0].AsEnumerable()
-                                   where row.Field<string>("hometeamname") == "GOODM8S" ||
-                                         row.Field<string>("awayteamname") == "GOODM8S"
-                                   select row;
+                    where row.Field<string>("hometeamname") == "GOODM8S" ||
+                          row.Field<string>("awayteamname") == "GOODM8S"
+                    select row;
 
                 var fixtureRow = fixtureQuery.FirstOrDefault();
 
@@ -293,8 +299,8 @@ namespace GoodM8s.Basketball.Controllers {
 
                 // Ladder
                 var ladderQuery = from row in dataSet.Tables[1].AsEnumerable()
-                                  where row.Field<string>("teamname") == "GOODM8S"
-                                  select row;
+                    where row.Field<string>("teamname") == "GOODM8S"
+                    select row;
 
                 var ladderRow = ladderQuery.FirstOrDefault();
 
@@ -304,10 +310,10 @@ namespace GoodM8s.Basketball.Controllers {
 
                 // Ladder vs
                 var vsQuery = from row in dataSet.Tables[1].AsEnumerable()
-                              where row.Field<string>("teamname") == (fixtureRow["hometeamname"].ToString() != "GOODM8S"
-                                                                          ? fixtureRow["hometeamname"].ToString()
-                                                                          : fixtureRow["awayteamname"].ToString())
-                              select row;
+                    where row.Field<string>("teamname") == (fixtureRow["hometeamname"].ToString() != "GOODM8S"
+                        ? fixtureRow["hometeamname"].ToString()
+                        : fixtureRow["awayteamname"].ToString())
+                    select row;
 
                 var vsRow = vsQuery.FirstOrDefault();
 
@@ -338,8 +344,8 @@ namespace GoodM8s.Basketball.Controllers {
                 sport.WeekOffset.GetValueOrDefault());
 
             var roundNumber = round.HasValue
-                                  ? round.Value
-                                  : maxRoundNumber;
+                ? round.Value
+                : maxRoundNumber;
 
             var vsTeamName = Vs(sport.FiXiId.GetValueOrDefault(), roundNumber);
 
@@ -412,6 +418,62 @@ namespace GoodM8s.Basketball.Controllers {
             }
 
             return View(compareViewModel);
+        }
+
+        public ActionResult Overview(int sportId, bool? showPast) {
+            var sport = _sportService.Get(sportId);
+
+            if (sport == null) {
+                return HttpNotFound();
+            }
+
+            ViewBag.Id = sport.Id;
+            ViewBag.Name = sport.Name;
+            ViewBag.CurrentDate = "1/1/1800";
+            ViewBag.ShowPast = showPast.HasValue && showPast.Value;
+
+            var maxRoundNumber = MaximumRoundNumber(
+                sport.StartDate.GetValueOrDefault(),
+                sport.WeekOffset.GetValueOrDefault());
+
+            var firstRound = showPast.HasValue && showPast.Value
+                ? 1
+                : maxRoundNumber;
+
+            var rows = new List<DataRow>();
+
+            for (var i = firstRound; i <= MaxRounds - 1; i++) {
+                var dataSet = fixtures.GetYmcaFixtures(sport.FiXiId.GetValueOrDefault(), i);
+
+                var vsQuery = from row in dataSet.Tables[0].AsEnumerable()
+                    where row.Field<string>("hometeamname") == "GOODM8S" ||
+                          row.Field<string>("awayteamname") == "GOODM8S"
+                    select row;
+
+                var goodm8s = vsQuery.FirstOrDefault();
+
+                if (goodm8s == null)
+                    continue;
+
+                if (i == maxRoundNumber) {
+                    ViewBag.CurrentDate = goodm8s["gamedate"];
+                }
+
+                if (goodm8s["hometeamname"].ToString() != "GOODM8S") {
+                    // Make GOODM8S the home team
+                    var awayTeamName = goodm8s["hometeamname"];
+                    var awayTeamScore = goodm8s["hometeamscore"];
+
+                    goodm8s["hometeamname"] = goodm8s["awayteamname"];
+                    goodm8s["hometeamscore"] = goodm8s["awayteamscore"];
+                    goodm8s["awayteamname"] = awayTeamName;
+                    goodm8s["awayteamscore"] = awayTeamScore;
+                }
+
+                rows.Add(goodm8s);
+            }
+
+            return View(rows);
         }
     }
 }

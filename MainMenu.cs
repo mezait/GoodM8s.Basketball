@@ -30,7 +30,7 @@ namespace GoodM8s.Basketball {
             }
 
             builder.Add(T("Summary"), "2.1", item =>
-                                             item.Action("Summary", "Home", new {area = "GoodM8s.Basketball"}));
+                item.Action("Summary", "Home", new {area = "GoodM8s.Basketball"}));
 
             var index = 2;
 
@@ -38,22 +38,27 @@ namespace GoodM8s.Basketball {
                 var sportId = sport.Id;
 
                 builder.Add(T(sport.Name + " - Fixtures"), String.Format("2.{0}", index), item =>
-                                                                                          item.Action("Fixtures", "Home", new {area = "GoodM8s.Basketball", sportId}));
+                    item.Action("Fixtures", "Home", new {area = "GoodM8s.Basketball", sportId}));
 
                 index++;
 
                 builder.Add(T(sport.Name + " - Ladder"), String.Format("2.{0}", index), item =>
-                                                                                        item.Action("Ladder", "Home", new {area = "GoodM8s.Basketball", sportId}));
+                    item.Action("Ladder", "Home", new {area = "GoodM8s.Basketball", sportId}));
 
                 index++;
 
                 builder.Add(T(sport.Name + " - Statistics"), String.Format("2.{0}", index), item =>
-                                                                                            item.Action("Statistics", "Home", new {area = "GoodM8s.Basketball", sportId}));
+                    item.Action("Statistics", "Home", new {area = "GoodM8s.Basketball", sportId}));
 
                 index++;
 
                 builder.Add(T(sport.Name + " - Comparison"), String.Format("2.{0}", index), item =>
-                                                                                            item.Action("Vs", "Home", new {area = "GoodM8s.Basketball", sportId}));
+                    item.Action("Vs", "Home", new {area = "GoodM8s.Basketball", sportId}));
+
+                index++;
+
+                builder.Add(T(sport.Name + " - Overview"), String.Format("2.{0}", index), item =>
+                    item.Action("Overview", "Home", new {area = "GoodM8s.Basketball", sportId}));
 
                 index++;
             }

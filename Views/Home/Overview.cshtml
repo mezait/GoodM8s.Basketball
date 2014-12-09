@@ -1,0 +1,70 @@
+﻿@using System.Data
+@model IEnumerable<DataRow>
+@Html.Partial("NavigationPartial")
+<h2>
+    @ViewBag.Name Overview</h2>
+<br />
+@if (ViewBag.ShowPast) {
+    <a href="/overview/@ViewBag.Id">Hide Past</a>
+}
+else {
+    <a href="/overview/@ViewBag.Id/true">Show Past</a>
+}
+<br />
+<br />
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Date
+            </th>
+            <th>
+                Time
+            </th>
+            <th>
+                Court
+            </th>
+            <th colspan="5" style="text-align: center;">
+                Line Up
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (DataRow row in Model)
+        {
+            <tr@{ if (row["gamedate"].ToString() == ViewBag.CurrentDate)
+                  {<text> class="success"</text>}}>
+                <td>
+                    @Convert.ToDateTime(@row["gamedate"]).ToShortDateString()
+                </td>
+                <td>
+                    @row["gametime"]
+                </td>
+                <td>
+                    @row["court"]
+                </td>
+                <td>
+                    @if ((int) row["hometeamscore"] > 0 &&
+                         (int) row["hometeamscore"] >= (int) @row["awayteamscore"]) {
+                        <strong>@row["hometeamname"]</strong>
+                    }
+                    else {
+                        @row["hometeamname"]
+                    }
+                </td>
+                <td>
+                    @row["hometeamscore"]
+                </td>
+                <td>
+                    Vs
+                </td>
+                <td>
+                    @row["awayteamscore"]
+                </td>
+                <td>
+                    @row["awayteamname"]
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
