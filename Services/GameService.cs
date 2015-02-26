@@ -2,6 +2,7 @@
 using System.Linq;
 using GoodM8s.Basketball.Models;
 using GoodM8s.Basketball.ViewModels;
+using GoodM8s.Core.Services;
 using Orchard;
 using Orchard.ContentManagement;
 
@@ -33,8 +34,9 @@ namespace GoodM8s.Basketball.Services {
             var oldStatistics = _gameStatisticService.GetByGame(gamePart.Id).ToList();
 
             // Make sure this is never null
-            if (model.GameStatistics == null)
+            if (model.GameStatistics == null) {
                 model.GameStatistics = new List<GameStatisticEditViewModel>();
+            }
 
             foreach (var statistic in oldStatistics) {
                 var statisticModel = model.GameStatistics.SingleOrDefault(m => m.Id == statistic.Id);
@@ -45,8 +47,8 @@ namespace GoodM8s.Basketball.Services {
                     statistic.FreeThrowsMade = statisticModel.FreeThrowsMade;
                     statistic.PersonalFouls = statisticModel.PersonalFouls;
                     statistic.PlayerPartRecord = statisticModel.PlayerId.HasValue
-                                                     ? _playerService.Get(statisticModel.PlayerId.Value).Record
-                                                     : null;
+                        ? _playerService.Get(statisticModel.PlayerId.Value).Record
+                        : null;
                     statistic.ThreeFieldGoalsMade = statisticModel.ThreeFieldGoalsMade;
                 }
                 else {
@@ -57,9 +59,9 @@ namespace GoodM8s.Basketball.Services {
 
             // Add the new statistics
             foreach (var statistic in from statistic in model.GameStatistics
-                                      let oldStatistic = oldStatistics.SingleOrDefault(m => m.Id == statistic.Id)
-                                      where oldStatistic == null
-                                      select statistic) {
+                let oldStatistic = oldStatistics.SingleOrDefault(m => m.Id == statistic.Id)
+                where oldStatistic == null
+                select statistic) {
                 _gameStatisticService.Create(
                     new GameStatisticRecord {
                         FieldGoalsMade = statistic.FieldGoalsMade,
@@ -68,8 +70,8 @@ namespace GoodM8s.Basketball.Services {
                         Id = statistic.Id,
                         PersonalFouls = statistic.PersonalFouls,
                         PlayerPartRecord = statistic.PlayerId.HasValue
-                                               ? _playerService.Get(statistic.PlayerId.Value).Record
-                                               : null,
+                            ? _playerService.Get(statistic.PlayerId.Value).Record
+                            : null,
                         ThreeFieldGoalsMade = statistic.ThreeFieldGoalsMade
                     });
             }

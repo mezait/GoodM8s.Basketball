@@ -1,6 +1,4 @@
-﻿using System.Linq;
-using GoodM8s.Basketball.Models;
-using GoodM8s.Basketball.Services;
+﻿using GoodM8s.Basketball.Models;
 using Orchard.ContentManagement;
 using Orchard.ContentManagement.Handlers;
 using Orchard.Data;
@@ -13,8 +11,8 @@ namespace GoodM8s.Basketball.Handlers {
             OnRemoved<GamePart>((context, part) => repository.Delete(part.Record));
 
             OnLoading<GamePart>((context, part) => part.SportField.Loader(item => part.SportId != null
-                                                                                      ? contentManager.Get<SportPart>(part.SportId.Value)
-                                                                                      : null));
+                ? contentManager.Get<SportPart>(part.SportId.Value)
+                : null));
         }
     }
 }

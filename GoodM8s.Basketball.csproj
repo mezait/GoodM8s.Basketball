@@ -84,6 +84,10 @@
     <Content Include="Views\Home\Vs.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\GoodM8s.Core\GoodM8s.Core.csproj">
+      <Project>{EA2DE7BB-CD8F-46F7-B28D-90D171FE783B}</Project>
+      <Name>GoodM8s.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\Orchard\Orchard.Framework.csproj">
       <Project>{2D1D92BB-4555-4CBE-8D0E-63563D6CE4C6}</Project>
       <Name>Orchard.Framework</Name>
@@ -129,9 +133,7 @@
     </Compile>
     <Compile Include="Models\GameStatisticRecord.cs" />
     <Compile Include="Routes.cs" />
-    <Compile Include="Services\BaseService.cs" />
     <Compile Include="Services\GameService.cs" />
-    <Compile Include="Services\IBaseService.cs" />
     <Compile Include="Services\IGameService.cs" />
     <Compile Include="Services\IPlayerService.cs" />
     <Compile Include="Services\ISeasonService.cs" />
@@ -146,7 +148,6 @@
     </Compile>
     <Compile Include="Services\GameStatisticService.cs" />
     <Compile Include="ViewModels\CompareViewModel.cs" />
-    <Compile Include="ViewModels\DynamicIndexViewModel.cs" />
     <Compile Include="ViewModels\GameEditViewModel.cs" />
     <Compile Include="ViewModels\GameStatisticEditViewModel.cs" />
     <Compile Include="ViewModels\SportEditViewModel.cs" />

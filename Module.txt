@@ -3,7 +3,7 @@ AntiForgery: enabled
 Author: Meza Information Technology
 Website: http://www.goodm8s.com.au
 Version: 1.0
-OrchardVersion: 1.
+OrchardVersion: 1.0
 Description: GoodM8s basketball - Seasons, fixtures, and statistics.
 Features:
     GoodM8s.Basketball:
