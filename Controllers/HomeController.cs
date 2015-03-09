@@ -262,10 +262,27 @@ namespace GoodM8s.Basketball.Controllers {
                 }
             }
 
+            var maxResults = new SportsMaxViewModel
+            {
+                GamesPlayed = players.Max(p => p.Value.GamesPlayed),
+                FieldGoalsMade = players.Max(p => p.Value.FieldGoalsMade),
+                ThreeFieldGoalsMade = players.Max(p => p.Value.ThreeFieldGoalsMade),
+                FreeThrowsMade = players.Max(p => p.Value.FreeThrowsMade),
+                PersonalFouls = players.Max(p => p.Value.PersonalFouls),
+                Donuts = players.Max(p => p.Value.Donuts),
+                DonutPercentage = players.Max(p => p.Value.DonutPercentage),
+                FoulsPerGame = players.Max(p => p.Value.FoulsPerGame),
+                FoulOuts = players.Max(p => p.Value.FoulOuts),
+                FoulOutsPercentage = players.Max(p => p.Value.FoulOutsPercentage),
+                Points = players.Max(p => p.Value.Points),
+                PointsPerGame = players.Max(p => p.Value.PointsPerGame)
+            };
+
             ViewBag.Id = sportId;
             ViewBag.Name = sport.Name;
             ViewBag.GameId = gameId ?? 0;
             ViewBag.Games = gameCount;
+            ViewBag.MaxResults = maxResults;
 
             return View(players);
         }

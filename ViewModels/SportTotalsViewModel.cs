@@ -19,5 +19,13 @@
         public double FoulsPerGame {
             get { return (double) PersonalFouls/GamesPlayed; }
         }
+
+        public decimal DonutPercentage {
+            get { return (decimal) Donuts/GamesPlayed; }
+        }
+
+        public decimal FoulOutsPercentage {
+            get { return (decimal) FoulOuts/GamesPlayed; }
+        }
     }
 }

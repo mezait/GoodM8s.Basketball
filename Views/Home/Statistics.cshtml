@@ -1,4 +1,5 @@
-﻿@model IDictionary<GoodM8s.Basketball.Models.PlayerPartRecord, GoodM8s.Basketball.ViewModels.SportTotalsViewModel>
+﻿@using GoodM8s.Basketball.Helpers
+@model IDictionary<GoodM8s.Basketball.Models.PlayerPartRecord, GoodM8s.Basketball.ViewModels.SportTotalsViewModel>
 @Html.Partial("NavigationPartial")
 <h2>
     @ViewBag.Name Statistics</h2>
@@ -60,31 +61,31 @@ Games Played: @ViewBag.Games
                     #@key.Number - @key.FirstName @key.LastName
                 </td>
                 <td>
-                    @Model[key].GamesPlayed
+                    @Html.Max(@Model[key].GamesPlayed, (int)ViewBag.MaxResults.GamesPlayed)
                 </td>
                 <td>
-                    @Model[key].FreeThrowsMade
+                    @Html.Max(@Model[key].FreeThrowsMade, (int)ViewBag.MaxResults.FreeThrowsMade)
                 </td>
                 <td>
-                    @Model[key].FieldGoalsMade
+                    @Html.Max(@Model[key].FieldGoalsMade, (int)ViewBag.MaxResults.FieldGoalsMade)
                 </td>
                 <td>
-                    @Model[key].ThreeFieldGoalsMade
+                    @Html.Max(@Model[key].ThreeFieldGoalsMade, (int)ViewBag.MaxResults.ThreeFieldGoalsMade)
                 </td>
                 <td>
-                    @Model[key].PersonalFouls
+                    @Html.Max(@Model[key].PersonalFouls, (int)ViewBag.MaxResults.PersonalFouls)
                 </td>
                 <td>
-                    @Model[key].Points
+                    @Html.Max(@Model[key].Points, (int)ViewBag.MaxResults.Points)
                 </td>
                 <td>
-                    @Model[key].PointsPerGame.ToString("0.00")
+                    @Html.Max(@Model[key].PointsPerGame, (double)ViewBag.MaxResults.PointsPerGame)
                 </td>
                 <td class="warning">
-                    @Model[key].Donuts
+                    @Html.Max(@Model[key].Donuts, (int)ViewBag.MaxResults.Donuts) (@Html.Max(@Model[key].DonutPercentage, (decimal)ViewBag.MaxResults.DonutPercentage))
                 </td>
                 <td class="warning">
-                    @Model[key].FoulOuts
+                    @Html.Max(@Model[key].FoulOuts, (int)ViewBag.MaxResults.FoulOuts) (@Html.Max(@Model[key].FoulOutsPercentage, (decimal)ViewBag.MaxResults.FoulOutsPercentage))
                 </td>
             </tr>
         }

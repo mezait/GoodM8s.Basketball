@@ -151,6 +151,7 @@
     <Compile Include="ViewModels\GameEditViewModel.cs" />
     <Compile Include="ViewModels\GameStatisticEditViewModel.cs" />
     <Compile Include="ViewModels\SportEditViewModel.cs" />
+    <Compile Include="ViewModels\SportsMaxViewModel.cs" />
     <Compile Include="ViewModels\SportTotalsViewModel.cs" />
     <Compile Include="ViewModels\SummaryViewModel.cs" />
   </ItemGroup>
