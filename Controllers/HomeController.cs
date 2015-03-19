@@ -97,6 +97,33 @@ namespace GoodM8s.Basketball.Controllers {
         }
 
         /// <summary>
+        /// Set the maximum value for a statistic
+        /// </summary>
+        /// <param name="maxPlayers">Dictionary</param>
+        /// <param name="key">Statistic</param>
+        /// <param name="value">Value</param>
+        /// <param name="player">Player</param>
+        private static void SetPlayerMax(IDictionary<string, PlayerMaxViewModel> maxPlayers, string key, int value, PlayerPartRecord player) {
+            if (value <= 0) {
+                return;
+            }
+
+            if (maxPlayers[key] == null || value > maxPlayers[key].Value) {
+                maxPlayers[key] = new PlayerMaxViewModel {
+                    Players = new List<PlayerPartRecord> {
+                        player
+                    },
+                    Value = value
+                };
+            }
+            else if (value == maxPlayers[key].Value) {
+                if (maxPlayers[key].Players.All(p => p.Id != player.Id)) {
+                    maxPlayers[key].Players.Add(player);
+                }
+            }
+        }
+
+        /// <summary>
         /// Figure out who we are playing this round
         /// </summary>
         /// <param name="fixId">Fixi Id</param>
@@ -229,6 +256,13 @@ namespace GoodM8s.Basketball.Controllers {
                 }
             }
 
+            var maxPlayers = new Dictionary<string, PlayerMaxViewModel> {
+                {"fieldGoalsMade", null},
+                {"threeFieldGoalsMade", null},
+                {"freeThrowsMade", null},
+                {"points", null},
+            };
+
             if (games != null) {
                 foreach (var game in games) {
                     gameCount++;
@@ -244,6 +278,7 @@ namespace GoodM8s.Basketball.Controllers {
                         var threeFieldGoalsMade = statistic.ThreeFieldGoalsMade.GetValueOrDefault();
                         var freeThrowsMade = statistic.FreeThrowsMade.GetValueOrDefault();
                         var personalFouls = statistic.PersonalFouls.GetValueOrDefault();
+                        var points = freeThrowsMade + (fieldGoalsMade*2) + (threeFieldGoalsMade*3);
 
                         players[player].GamesPlayed++;
                         players[player].FieldGoalsMade += fieldGoalsMade;
@@ -258,11 +293,16 @@ namespace GoodM8s.Basketball.Controllers {
                         if (personalFouls >= 5) {
                             players[player].FoulOuts++;
                         }
+
+                        SetPlayerMax(maxPlayers, "fieldGoalsMade", fieldGoalsMade, player);
+                        SetPlayerMax(maxPlayers, "threeFieldGoalsMade", threeFieldGoalsMade, player);
+                        SetPlayerMax(maxPlayers, "freeThrowsMade", freeThrowsMade, player);
+                        SetPlayerMax(maxPlayers, "points", points, player);
                     }
                 }
             }
 
-            var maxResults = new SportsMaxViewModel
+            var maxResults = new SportMaxViewModel
             {
                 GamesPlayed = players.Max(p => p.Value.GamesPlayed),
                 FieldGoalsMade = players.Max(p => p.Value.FieldGoalsMade),
@@ -282,6 +322,7 @@ namespace GoodM8s.Basketball.Controllers {
             ViewBag.Name = sport.Name;
             ViewBag.GameId = gameId ?? 0;
             ViewBag.Games = gameCount;
+            ViewBag.MaxPlayers = maxPlayers;
             ViewBag.MaxResults = maxResults;
 
             return View(players);

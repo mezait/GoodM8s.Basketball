@@ -1,5 +1,5 @@
 ﻿namespace GoodM8s.Basketball.ViewModels {
-    public class SportsMaxViewModel {
+    public class SportMaxViewModel {
         public int GamesPlayed { get; set; }
         public int FieldGoalsMade { get; set; }
         public int ThreeFieldGoalsMade { get; set; }

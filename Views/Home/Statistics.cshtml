@@ -17,7 +17,9 @@
 <br />
 Games Played: @ViewBag.Games
 <br />
-<br />
+<h3>
+    Team
+</h3>
 <table class="table">
     <thead>
         <tr>
@@ -89,5 +91,101 @@ Games Played: @ViewBag.Games
                 </td>
             </tr>
         }
+    </tbody>
+</table>
+<h3>
+    Leaders
+</h3>
+<table class="table">
+    <tbody>
+        <tr>
+            <th>
+                Points
+            </th>
+            <td>
+                @if (ViewBag.MaxPlayers["points"] != null)
+                {
+                        
+                    <ul>
+                        @foreach (var player in ViewBag.MaxPlayers["points"].Players)
+                        {
+                            <li>@player.FirstName @player.LastName</li>
+                        }
+                    </ul>
+                }
+            </td>
+            <td>
+                @if (ViewBag.MaxPlayers["points"] != null)
+                {
+                    @ViewBag.MaxPlayers["points"].Value
+                }
+            </td>
+        </tr>
+        <tr>
+            <th>
+                Field Goals
+            </th>
+            <td>
+                @if (ViewBag.MaxPlayers["fieldGoalsMade"] != null)
+                {
+                    <ul>
+                        @foreach (var player in ViewBag.MaxPlayers["fieldGoalsMade"].Players)
+                        {
+                            <li>@player.FirstName @player.LastName</li>
+                        }
+                    </ul>
+                }
+            </td>
+            <td>
+                @if (ViewBag.MaxPlayers["fieldGoalsMade"] != null)
+                {
+                    @ViewBag.MaxPlayers["fieldGoalsMade"].Value
+                }
+            </td>
+        </tr>
+        <tr>
+            <th>
+                Three Points
+            </th>
+            <td>
+                @if (ViewBag.MaxPlayers["threeFieldGoalsMade"] != null)
+                {
+                    <ul>
+                        @foreach (var player in ViewBag.MaxPlayers["threeFieldGoalsMade"].Players)
+                        {
+                            <li>@player.FirstName @player.LastName</li>
+                        }
+                    </ul>
+                }
+            </td>
+            <td>
+                @if (ViewBag.MaxPlayers["threeFieldGoalsMade"] != null)
+                {
+                    @ViewBag.MaxPlayers["threeFieldGoalsMade"].Value
+                }
+            </td>
+        </tr>
+        <tr>
+            <th>
+                Free Throws
+            </th>
+            <td>
+                @if (ViewBag.MaxPlayers["freeThrowsMade"] != null)
+                {
+                    <ul>
+                        @foreach (var player in ViewBag.MaxPlayers["freeThrowsMade"].Players)
+                        {
+                            <li>@player.FirstName @player.LastName</li>
+                        }
+                    </ul>
+                }
+            </td>
+            <td>
+                @if (ViewBag.MaxPlayers["freeThrowsMade"] != null)
+                {
+                    @ViewBag.MaxPlayers["freeThrowsMade"].Value
+                }
+            </td>
+        </tr>
     </tbody>
 </table>

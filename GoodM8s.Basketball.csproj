@@ -150,8 +150,9 @@
     <Compile Include="ViewModels\CompareViewModel.cs" />
     <Compile Include="ViewModels\GameEditViewModel.cs" />
     <Compile Include="ViewModels\GameStatisticEditViewModel.cs" />
+    <Compile Include="ViewModels\PlayerMaxViewModel.cs" />
     <Compile Include="ViewModels\SportEditViewModel.cs" />
-    <Compile Include="ViewModels\SportsMaxViewModel.cs" />
+    <Compile Include="ViewModels\SportMaxViewModel.cs" />
     <Compile Include="ViewModels\SportTotalsViewModel.cs" />
     <Compile Include="ViewModels\SummaryViewModel.cs" />
   </ItemGroup>
