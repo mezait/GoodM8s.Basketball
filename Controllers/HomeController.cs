@@ -4,6 +4,7 @@ using System.Data;
 using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
+using System.Web.UI.WebControls;
 using GoodM8s.Basketball.Models;
 using GoodM8s.Basketball.Services;
 using GoodM8s.Basketball.ViewModels;
@@ -130,7 +131,14 @@ namespace GoodM8s.Basketball.Controllers {
         /// <param name="round">Round number</param>
         /// <returns>Team name of the team we are playing</returns>
         private static string Vs(int fixId, int round) {
-            var dataSet = fixtures.GetYmcaFixtures(fixId, round);
+            DataSet dataSet;
+
+            try {
+                dataSet = fixtures.GetYmcaFixtures(fixId, round);
+            }
+            catch (Exception) {
+                throw new Exception("Regex failed.");
+            }
 
             var m8Query = from row in dataSet.Tables[0].AsEnumerable()
                 where row.Field<string>("hometeamname") == "GOODM8S" ||
@@ -209,7 +217,13 @@ namespace GoodM8s.Basketball.Controllers {
             ViewBag.MaxRoundNumber = maxRoundNumber;
             ViewBag.RoundNumber = roundNumber;
 
-            return View(fixtures.GetYmcaFixtures(sport.FiXiId.GetValueOrDefault(), roundNumber).Tables[0]);
+            try
+            {
+                return View(fixtures.GetYmcaFixtures(sport.FiXiId.GetValueOrDefault(), roundNumber).Tables[0]);
+            }
+            catch (Exception) {
+                return View("SmissError");
+            }
         }
 
         public ActionResult Ladder(int sportId, int? round) {
@@ -232,7 +246,12 @@ namespace GoodM8s.Basketball.Controllers {
             ViewBag.MaxRoundNumber = maxRoundNumber;
             ViewBag.RoundNumber = roundNumber;
 
-            return View(fixtures.GetYmcaFixtures(sport.FiXiId.GetValueOrDefault(), roundNumber).Tables[1]);
+            try {
+                return View(fixtures.GetYmcaFixtures(sport.FiXiId.GetValueOrDefault(), roundNumber).Tables[1]);
+            }
+            catch (Exception) {
+                return View("SmissError");
+            }
         }
 
         public ActionResult Statistics(int sportId, int? gameId) {
@@ -337,9 +356,19 @@ namespace GoodM8s.Basketball.Controllers {
                     sport.StartDate.GetValueOrDefault(),
                     sport.WeekOffset.GetValueOrDefault());
 
-                var dataSet = fixtures.GetYmcaFixtures(sport.FiXiId.GetValueOrDefault(), maxRoundNumber);
+                DataSet dataSet = null;
 
-                if (dataSet.Tables.Count <= 0) {
+                try {
+                    dataSet = fixtures.GetYmcaFixtures(sport.FiXiId.GetValueOrDefault(), maxRoundNumber);
+                }
+                catch (Exception)
+                {
+                    return View("SmissError");
+                }
+
+                if (dataSet == null ||
+                    dataSet.Tables.Count <= 0)
+                {
                     continue;
                 }
 
@@ -405,7 +434,14 @@ namespace GoodM8s.Basketball.Controllers {
                 ? round.Value
                 : maxRoundNumber;
 
-            var vsTeamName = Vs(sport.FiXiId.GetValueOrDefault(), roundNumber);
+            string vsTeamName;
+
+            try {
+                vsTeamName = Vs(sport.FiXiId.GetValueOrDefault(), roundNumber);
+            }
+            catch (Exception) {
+                return View("SmissError");
+            }
 
             ViewBag.Id = sport.Id;
             ViewBag.Name = sport.Name;
@@ -416,7 +452,20 @@ namespace GoodM8s.Basketball.Controllers {
             var compareViewModel = new CompareViewModel();
 
             for (var i = 1; i <= roundNumber - 1; i++) {
-                var dataSet = fixtures.GetYmcaFixtures(sport.FiXiId.GetValueOrDefault(), i);
+                DataSet dataSet = null;
+
+                try {
+                    dataSet = fixtures.GetYmcaFixtures(sport.FiXiId.GetValueOrDefault(), i);
+                }
+                catch (Exception) {
+                    return View("SmissError");
+                }
+
+                if (dataSet == null ||
+                    dataSet.Tables.Count <= 0)
+                {
+                    continue;
+                }
 
                 var goodM8s = VsScore(dataSet, "GOODM8S");
 
@@ -501,7 +550,21 @@ namespace GoodM8s.Basketball.Controllers {
             var rows = new List<DataRow>();
 
             for (var i = firstRound; i <= MaxRounds - 1; i++) {
-                var dataSet = fixtures.GetYmcaFixtures(sport.FiXiId.GetValueOrDefault(), i);
+                DataSet dataSet = null;
+
+                try {
+                    dataSet = fixtures.GetYmcaFixtures(sport.FiXiId.GetValueOrDefault(), i);
+                }
+                catch (Exception)
+                {
+                    return View("SmissError");
+                }
+
+                if (dataSet == null ||
+                    dataSet.Tables.Count <= 0)
+                {
+                    continue;
+                }
 
                 var vsQuery = from row in dataSet.Tables[0].AsEnumerable()
                     where row.Field<string>("hometeamname") == "GOODM8S" ||

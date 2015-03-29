@@ -70,18 +70,40 @@
     <Content Include="Scripts\jquery.goodm8s.game-edit.js" />
     <Content Include="Styles\menu.goodm8s-admin.css" />
     <Content Include="packages.config" />
+    <Content Include="Views\EditorTemplates\GameStatisticEditViewModel.cshtml" />
+    <Content Include="Views\EditorTemplates\Parts\Game.cshtml" />
+    <Content Include="Views\EditorTemplates\Parts\Player.cshtml" />
+    <Content Include="Views\EditorTemplates\Parts\Season.cshtml" />
+    <Content Include="Views\EditorTemplates\Parts\Sport.cshtml" />
+    <Content Include="Views\GameAdmin\Create.cshtml" />
+    <Content Include="Views\GameAdmin\Edit.cshtml" />
+    <Content Include="Views\GameAdmin\Index.cshtml" />
+    <Content Include="Views\Home\Fixtures.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\Home\Ladder.cshtml" />
+    <Content Include="Views\Home\NavigationPartial.cshtml" />
     <Content Include="Views\Home\Overview.cshtml" />
-    <None Include="Views\Home\PaginationPartial.cshtml" />
-    <Content Include="Web.config" />
+    <Content Include="Views\Home\Statistics.cshtml" />
+    <Content Include="Views\Home\Summary.cshtml" />
+    <Content Include="Views\Home\SummaryViewModel.cshtml" />
+    <Content Include="Views\Home\Vs.cshtml" />
+    <Content Include="Views\PlayerAdmin\Create.cshtml" />
+    <Content Include="Views\PlayerAdmin\Edit.cshtml" />
+    <Content Include="Views\PlayerAdmin\Index.cshtml" />
+    <Content Include="Views\SeasonAdmin\Create.cshtml" />
+    <Content Include="Views\SeasonAdmin\Edit.cshtml" />
+    <Content Include="Views\SeasonAdmin\Index.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\Collection.cshtml" />
+    <Content Include="Views\SportAdmin\Create.cshtml" />
+    <Content Include="Views\SportAdmin\Edit.cshtml" />
+    <Content Include="Views\SportAdmin\Index.cshtml" />
     <Content Include="Views\Web.config" />
+    <Content Include="Web.config" />
     <Content Include="Scripts\Web.config" />
     <Content Include="Styles\Web.config" />
     <Content Include="Properties\AssemblyInfo.cs" />
     <Content Include="Module.txt" />
-    <Content Include="Views\Shared\EditorTemplates\Collection.cshtml" />
-    <Content Include="Views\Home\Summary.cshtml" />
-    <Content Include="Views\Home\SummaryViewModel.cshtml" />
-    <Content Include="Views\Home\Vs.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\GoodM8s.Core\GoodM8s.Core.csproj">
@@ -157,32 +179,9 @@
     <Compile Include="ViewModels\SummaryViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\SeasonAdmin\Index.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Placement.info" />
-    <Content Include="Views\SeasonAdmin\Create.cshtml" />
-    <Content Include="Views\EditorTemplates\Parts\Season.cshtml" />
-    <Content Include="Views\SeasonAdmin\Edit.cshtml" />
-    <Content Include="Views\SportAdmin\Create.cshtml" />
-    <Content Include="Views\EditorTemplates\Parts\Sport.cshtml" />
-    <Content Include="Views\SportAdmin\Index.cshtml" />
-    <Content Include="Views\SportAdmin\Edit.cshtml" />
-    <Content Include="Views\Home\Fixtures.cshtml" />
-    <Content Include="Views\Home\Ladder.cshtml" />
-    <Content Include="Views\PlayerAdmin\Index.cshtml" />
-    <Content Include="Views\PlayerAdmin\Create.cshtml" />
-    <Content Include="Views\PlayerAdmin\Edit.cshtml" />
-    <Content Include="Views\EditorTemplates\Parts\Game.cshtml" />
-    <Content Include="Views\GameAdmin\Index.cshtml" />
-    <Content Include="Views\GameAdmin\Create.cshtml" />
-    <Content Include="Views\GameAdmin\Edit.cshtml" />
-    <Content Include="Views\EditorTemplates\GameStatisticEditViewModel.cshtml" />
-    <Content Include="Views\Home\Statistics.cshtml" />
-    <Content Include="Views\Home\NavigationPartial.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Views\EditorTemplates\Parts\Player.cshtml" />
+    <Content Include="Views\Home\PaginationPartial.cshtml" />
+    <Content Include="Views\Home\SmissError.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <PropertyGroup>
