@@ -7,10 +7,10 @@
         @ViewBag.Name Overview</h2>
     <br />
     @if (ViewBag.ShowPast) {
-        <a href="/overview/@ViewBag.Id">Hide Past</a>
+        <a href="/overview/@ViewBag.Id" class="btn btn-info" role="button">Hide Past</a>
     }
     else {
-        <a href="/overview/@ViewBag.Id/true">Show Past</a>
+        <a href="/overview/@ViewBag.Id/true" class="btn btn-info" role="button">Show Past</a>
     }
     <br />
     <br />
