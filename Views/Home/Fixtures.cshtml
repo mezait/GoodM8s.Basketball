@@ -1,56 +1,59 @@
-﻿@using System.Data
+﻿@using GoodM8s.Basketball.Helpers
+@using System.Data
 @model DataTable
-@Html.Partial("NavigationPartial")
-<h2>
-    @ViewBag.Name Fixtures</h2>
-@Html.Partial("PaginationPartial")
-<br />
-@if (@Model.Rows.Count > 0) {
-    @Convert.ToDateTime(Model.Rows[0]["gamedate"]).ToShortDateString();
-}
-<br />
-<br />
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                Time
-            </th>
-            <th>
-                Court
-            </th>
-            <th colspan="5" style="text-align: center;">
-                Line Up
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (DataRow row in Model.Rows)
-        {
-            <tr@{ if (row["hometeamname"].ToString() == "GOODM8S" || row["awayteamname"].ToString() == "GOODM8S")
-                  {<text> class="success"</text>}}>
-                <td>
-                    @row["gametime"]
-                </td>
-                <td>
-                    @row["court"]
-                </td>
-                <td>
-                    @row["hometeamname"]
-                </td>
-                <td>
-                    @row["hometeamscore"]
-                </td>
-                <td>
-                    Vs
-                </td>
-                <td>
-                    @row["awayteamscore"]
-                </td>
-                <td>
-                    @row["awayteamname"]
-                </td>
+<div class="goodm8s-basketball">
+    @Html.Partial("NavigationPartial")
+    <h2>
+        @ViewBag.Name Fixtures</h2>
+    @Html.Partial("PaginationPartial")
+    <br />
+    @if (@Model.Rows.Count > 0) {
+        @Convert.ToDateTime(Model.Rows[0]["gamedate"]).ToShortDateString();
+    }
+    <br />
+    <br />
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Time
+                </th>
+                <th>
+                    Court
+                </th>
+                <th colspan="5" style="text-align: center;">
+                    Line Up
+                </th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (DataRow row in Model.Rows)
+            {
+                <tr@{ if (row["hometeamname"].ToString() == "GOODM8S" || row["awayteamname"].ToString() == "GOODM8S")
+                      {<text> class="success"</text>}}>
+                    <td>
+                        @row["gametime"]
+                    </td>
+                    <td>
+                        @row["court"]
+                    </td>
+                    <td>
+                        @row["hometeamname"]
+                    </td>
+                    <td>
+                        @Html.Win((int)row["hometeamscore"], (int)row["awayteamscore"])
+                    </td>
+                    <td>
+                        Vs
+                    </td>
+                    <td>
+                        @Html.Win((int)row["awayteamscore"], (int)row["hometeamscore"])
+                    </td>
+                    <td>
+                        @row["awayteamname"]
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

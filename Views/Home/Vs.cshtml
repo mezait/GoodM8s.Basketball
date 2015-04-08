@@ -1,54 +1,56 @@
 ﻿@using GoodM8s.Basketball.Helpers
 @using GoodM8s.Basketball.ViewModels
 @model CompareViewModel
-@Html.Partial("NavigationPartial")
-<h2>
-    @ViewBag.Name Comparison</h2>
-@Html.Partial("PaginationPartial")
-<br />
-<br />
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                &nbsp;
-            </th>
-            <th>
-                GOODM8s
-            </th>
-            <th>
-                @ViewBag.VsTeam
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var key in Model.Scores.Keys)
-        {
+<div class="goodm8s-basketball">
+    @Html.Partial("NavigationPartial")
+    <h2>
+        @ViewBag.Name Comparison</h2>
+    @Html.Partial("PaginationPartial")
+    <br />
+    <br />
+    <table class="table comparison">
+        <thead>
             <tr>
-                <td>
-                    @key
-                </td>
-                <td>
-                    @if (Model.Scores[key].ContainsKey("GOODM8S"))
-                    {
-                        <ul>
-                        @foreach (var score in Model.Scores[key]["GOODM8S"]) {
-                            <li>@Html.Score(score)</li>
-                        }
-                        </ul>
-                    }
-                </td>
-                <td>
-                    @if (Model.Scores[key].ContainsKey(ViewBag.VsTeam))
-                    {
-                        <ul>
-                        @foreach (var score in Model.Scores[key][ViewBag.VsTeam]) {
-                            <li>@Html.Score((CompareScore) score)</li>
-                        }
-                        </ul>
-                    }
-                </td>
+                <th>
+                    &nbsp;
+                </th>
+                <th>
+                    GOODM8s
+                </th>
+                <th>
+                    @ViewBag.VsTeam
+                </th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var key in Model.Scores.Keys)
+            {
+                <tr>
+                    <td>
+                        @key
+                    </td>
+                    <td>
+                        @if (Model.Scores[key].ContainsKey("GOODM8S"))
+                        {
+                            <ul>
+                            @foreach (var score in Model.Scores[key]["GOODM8S"]) {
+                                <li>@Html.Score(score)</li>
+                            }
+                            </ul>
+                        }
+                    </td>
+                    <td>
+                        @if (Model.Scores[key].ContainsKey(ViewBag.VsTeam))
+                        {
+                            <ul>
+                            @foreach (var score in Model.Scores[key][ViewBag.VsTeam]) {
+                                <li>@Html.Score((CompareScore) score)</li>
+                            }
+                            </ul>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

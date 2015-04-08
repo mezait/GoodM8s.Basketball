@@ -1,97 +1,99 @@
 ﻿@using System.Data
 @model DataTable
-@Html.Partial("NavigationPartial")
-<h2>
-    @ViewBag.Name Ladder</h2>
-@Html.Partial("PaginationPartial")
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                Position
-            </th>
-            <th>
-                Team
-            </th>
-            <th>
-                <a href="#" data-toggle="tooltip" title="Games played">P</a>
-            </th>
-            <th>
-                <a href="#" data-toggle="tooltip" title="Wins">W</a>
-            </th>
-            <th>
-                <a href="#" data-toggle="tooltip" title="Losses">L</a>
-            </th>
-            <th>
-                <a href="#" data-toggle="tooltip" title="BYEs">B</a>
-            </th>
-            <th>
-                <a href="#" data-toggle="tooltip" title="Draws">D</a>
-            </th>
-            <th>
-                <a href="#" data-toggle="tooltip" title="Forfeights">FF</a>
-            </th>
-            <th>
-                <a href="#" data-toggle="tooltip" title="Forfeights against">FFA</a>
-            </th>
-            <th>
-                <a href="#" data-toggle="tooltip" title="Points for">PF</a>
-            </th>
-            <th>
-                <a href="#" data-toggle="tooltip" title="Points against">PA</a>
-            </th>
-            <th>
-                <a href="#" data-toggle="tooltip" title="Points percentage">%</a>
-            </th>
-            <th>
-                Points
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (DataRow row in Model.Rows)
-        {
-            <tr@{ if (row["teamname"].ToString() == "GOODM8S")
-                  {<text> class="success"</text>}}>
-                <td>@row["position"]
-                </td>
-                <td>
-                    @row["teamname"]
-                </td>
-                <td>
-                    @row["gamesplayed"]
-                </td>
-                <td>
-                    @row["gameswon"]
-                </td>
-                <td>
-                    @row["gameslost"]
-                </td>
-                <td>
-                    @row["gamesbye"]
-                </td>
-                <td>
-                    @row["gamesdraw"]
-                </td>
-                <td>
-                    @row["gamesff"]
-                </td>
-                <td>
-                    @row["gamesfa"]
-                </td>
-                <td>
-                    @row["pointsfor"]
-                </td>
-                <td>
-                    @row["pointsagainst"]
-                </td>
-                <td>
-                    @row["percentile"]
-                </td>
-                <td>
-                    @row["points"]
-                </td>
+<div class="goodm8s-basketball">
+    @Html.Partial("NavigationPartial")
+    <h2>
+        @ViewBag.Name Ladder</h2>
+    @Html.Partial("PaginationPartial")
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Position
+                </th>
+                <th>
+                    Team
+                </th>
+                <th>
+                    <a href="#" data-toggle="tooltip" title="Games played">P</a>
+                </th>
+                <th>
+                    <a href="#" data-toggle="tooltip" title="Wins">W</a>
+                </th>
+                <th>
+                    <a href="#" data-toggle="tooltip" title="Losses">L</a>
+                </th>
+                <th>
+                    <a href="#" data-toggle="tooltip" title="BYEs">B</a>
+                </th>
+                <th>
+                    <a href="#" data-toggle="tooltip" title="Draws">D</a>
+                </th>
+                <th>
+                    <a href="#" data-toggle="tooltip" title="Forfeights">FF</a>
+                </th>
+                <th>
+                    <a href="#" data-toggle="tooltip" title="Forfeights against">FFA</a>
+                </th>
+                <th>
+                    <a href="#" data-toggle="tooltip" title="Points for">PF</a>
+                </th>
+                <th>
+                    <a href="#" data-toggle="tooltip" title="Points against">PA</a>
+                </th>
+                <th>
+                    <a href="#" data-toggle="tooltip" title="Points percentage">%</a>
+                </th>
+                <th>
+                    Points
+                </th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (DataRow row in Model.Rows)
+            {
+                <tr@{ if (row["teamname"].ToString() == "GOODM8S")
+                      {<text> class="success"</text>}}>
+                    <td>@row["position"]
+                    </td>
+                    <td>
+                        @row["teamname"]
+                    </td>
+                    <td>
+                        @row["gamesplayed"]
+                    </td>
+                    <td>
+                        @row["gameswon"]
+                    </td>
+                    <td>
+                        @row["gameslost"]
+                    </td>
+                    <td>
+                        @row["gamesbye"]
+                    </td>
+                    <td>
+                        @row["gamesdraw"]
+                    </td>
+                    <td>
+                        @row["gamesff"]
+                    </td>
+                    <td>
+                        @row["gamesfa"]
+                    </td>
+                    <td>
+                        @row["pointsfor"]
+                    </td>
+                    <td>
+                        @row["pointsagainst"]
+                    </td>
+                    <td>
+                        @row["percentile"]
+                    </td>
+                    <td>
+                        @row["points"]
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

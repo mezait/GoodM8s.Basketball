@@ -4,7 +4,6 @@ using System.Data;
 using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
-using System.Web.UI.WebControls;
 using GoodM8s.Basketball.Models;
 using GoodM8s.Basketball.Services;
 using GoodM8s.Basketball.ViewModels;
@@ -410,6 +409,7 @@ namespace GoodM8s.Basketball.Controllers {
                     GameTime = fixtureRow["gametime"].ToString(),
                     Points = ladderRow["points"].ToString(),
                     Position = Ordinal((int) ladderRow["position"]),
+                    SportId = sport.Id,
                     Vs = vsRow != null ? vsRow["teamname"].ToString() : String.Empty,
                     VsPoints = vsRow != null ? vsRow["points"].ToString() : String.Empty,
                     VsPosition = vsRow != null ? Ordinal((int) vsRow["position"]) : String.Empty

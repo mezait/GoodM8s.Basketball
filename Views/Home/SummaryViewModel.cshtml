@@ -4,6 +4,7 @@
         ? Model.GameDate.ToLongDateString()
         : "Tonight";
 }
+<p>
 @if (String.IsNullOrEmpty(Model.Court) || Model.Court == "None")
 {
     <text><h3>@gameDate - * NO GAME *</h3>
@@ -19,3 +20,7 @@ else
     We are currently @Model.Position on the ladder with @Model.Points points, @Model.Vs
     are @Model.VsPosition with @Model.VsPoints points.</text>
 }
+</p>
+<p>
+    <a href="/fixtures/@Model.SportId" class="btn btn-info" role="button">Fixtures</a>
+</p>

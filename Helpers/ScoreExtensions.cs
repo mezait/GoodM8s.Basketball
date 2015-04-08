@@ -16,40 +16,41 @@ namespace GoodM8s.Basketball.Helpers {
             var max = Math.Max(score.For, score.Against);
             var stringBuilder = new StringBuilder();
 
-            if (max == score.For) {
-                stringBuilder.AppendFormat("<strong>{0}</strong>", score.For);
-            }
-            else {
-                stringBuilder.Append(score.For);
-            }
+            stringBuilder.AppendFormat(max == score.For
+                ? "<span class=\"for win\">{0}</span>"
+                : "<span class=\"for\">{0}</span>", score.For);
 
             stringBuilder.Append(" vs ");
 
-            if (max == score.Against) {
-                stringBuilder.AppendFormat("<strong>{0}</strong>", score.Against);
-            }
-            else {
-                stringBuilder.Append(score.Against);
-            }
+            stringBuilder.AppendFormat(max == score.Against
+                ? "<span class=\"against win\">{0}</span>"
+                : "<span class=\"against\">{0}</span>", score.Against);
 
             return new MvcHtmlString(stringBuilder.ToString());
         }
 
         public static MvcHtmlString Max(this HtmlHelper helper, double a, double b) {
             return a == b
-                ? new MvcHtmlString(String.Format("<strong>{0}</strong>", a.ToString("0.00")))
+                ? new MvcHtmlString(String.Format("<span class=\"max\">{0}</span>", a.ToString("0.00")))
                 : new MvcHtmlString(a.ToString("0.00"));
         }
 
         public static MvcHtmlString Max(this HtmlHelper helper, decimal a, decimal b) {
             return a == b
-                ? new MvcHtmlString(String.Format("<strong>{0}</strong>", a.ToString("P")))
+                ? new MvcHtmlString(String.Format("<span class=\"max\">{0}</span>", a.ToString("P")))
                 : new MvcHtmlString(a.ToString("P"));
         }
 
         public static MvcHtmlString Max(this HtmlHelper helper, int a, int b) {
             return a == b
-                ? new MvcHtmlString(String.Format("<strong>{0}</strong>", a))
+                ? new MvcHtmlString(String.Format("<span class=\"max\">{0}</span>", a))
+                : new MvcHtmlString(a.ToString(CultureInfo.InvariantCulture));
+        }
+
+        public static MvcHtmlString Win(this HtmlHelper helper, int a, int b)
+        {
+            return a > 0 && a >= b
+                ? new MvcHtmlString(String.Format("<span class=\"win\">{0}</span>", a))
                 : new MvcHtmlString(a.ToString(CultureInfo.InvariantCulture));
         }
     }

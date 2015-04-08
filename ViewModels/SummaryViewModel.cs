@@ -2,6 +2,7 @@
 
 namespace GoodM8s.Basketball.ViewModels {
     public class SummaryViewModel {
+        public int SportId { get; set; }
         public DateTime GameDate { get; set; }
         public string GameTime { get; set; }
         public string Court { get; set; }
