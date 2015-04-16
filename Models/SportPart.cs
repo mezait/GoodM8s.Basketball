@@ -41,6 +41,16 @@ namespace GoodM8s.Basketball.Models {
             set { Record.WeekOffset = value; }
         }
 
+        public int? RoundCount {
+            get { return Record.RoundCount; }
+            set { Record.RoundCount = value; }
+        }
+
+        public bool IsActive {
+            get { return Record.IsActive; }
+            set { Record.IsActive = value; }
+        }
+
         public SeasonPart Season {
             get { return _seasonPart.Value; }
             set { _seasonPart.Value = value; }

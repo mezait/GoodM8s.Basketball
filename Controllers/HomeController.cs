@@ -213,6 +213,7 @@ namespace GoodM8s.Basketball.Controllers {
 
             ViewBag.Id = sport.Id;
             ViewBag.Name = sport.Name;
+            ViewBag.RoundCount = sport.RoundCount;
             ViewBag.MaxRoundNumber = maxRoundNumber;
             ViewBag.RoundNumber = roundNumber;
 
@@ -242,6 +243,7 @@ namespace GoodM8s.Basketball.Controllers {
 
             ViewBag.Id = sport.Id;
             ViewBag.Name = sport.Name;
+            ViewBag.RoundCount = sport.RoundCount;
             ViewBag.MaxRoundNumber = maxRoundNumber;
             ViewBag.RoundNumber = roundNumber;
 
@@ -350,7 +352,7 @@ namespace GoodM8s.Basketball.Controllers {
             var season = _seasonService.GetActive();
             var summaries = new List<SummaryViewModel>();
 
-            foreach (var sport in _sportService.GetBySeason(season.Id)) {
+            foreach (var sport in _sportService.GetBySeason(season.Id, true)) {
                 var maxRoundNumber = MaximumRoundNumber(
                     sport.StartDate.GetValueOrDefault(),
                     sport.WeekOffset.GetValueOrDefault());
@@ -445,6 +447,7 @@ namespace GoodM8s.Basketball.Controllers {
 
             ViewBag.Id = sport.Id;
             ViewBag.Name = sport.Name;
+            ViewBag.RoundCount = sport.RoundCount;
             ViewBag.MaxRoundNumber = maxRoundNumber;
             ViewBag.RoundNumber = roundNumber;
             ViewBag.VsTeam = vsTeamName;

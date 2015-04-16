@@ -2,7 +2,6 @@
 using System.Web.Mvc;
 using GoodM8s.Basketball.Models;
 using GoodM8s.Basketball.Services;
-using GoodM8s.Basketball.ViewModels;
 using GoodM8s.Core.ViewModels;
 using Orchard;
 using Orchard.ContentManagement;
@@ -35,12 +34,13 @@ namespace GoodM8s.Basketball.Controllers {
 
         public ActionResult Index(PagerParameters pagerParameters) {
             var sportsProjection = from sport in _sportService.Get()
-                                   select Shape.Sport
-                                       (
-                                           Id: sport.Id,
-                                           Name: sport.Name,
-                                           Season: sport.Season.Title
-                                       );
+                select Shape.Sport
+                    (
+                        Id: sport.Id,
+                        Name: sport.Name,
+                        Season: sport.Season.Title,
+                        IsActive: sport.IsActive
+                    );
 
             var pager = new Pager(_siteService.GetSiteSettings(), pagerParameters.Page, pagerParameters.PageSize);
 

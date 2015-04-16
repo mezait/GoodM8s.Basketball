@@ -34,7 +34,7 @@ namespace GoodM8s.Basketball {
 
             var index = 2;
 
-            foreach (var sport in _sportService.GetBySeason(season.Id)) {
+            foreach (var sport in _sportService.GetBySeason(season.Id, true)) {
                 var sportId = sport.Id;
 
                 builder.Add(T(sport.Name + " - Fixtures"), String.Format("2.{0}", index), item =>

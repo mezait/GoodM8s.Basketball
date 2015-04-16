@@ -20,6 +20,8 @@ namespace GoodM8s.Basketball.ViewModels {
         public DateTime? StartDate { get; set; }
 
         public int? WeekOffset { get; set; }
+        public int? RoundCount { get; set; }
+        public bool IsActive { get; set; }
         public IEnumerable<SeasonPart> Seasons { get; set; }
     }
 }

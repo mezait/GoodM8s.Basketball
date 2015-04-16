@@ -25,7 +25,9 @@ namespace GoodM8s.Basketball.Drivers {
                 SeasonId = part.SeasonId,
                 Seasons = _seasonService.Get(),
                 StartDate = part.StartDate,
-                WeekOffset = part.WeekOffset
+                WeekOffset = part.WeekOffset,
+                RoundCount = part.RoundCount,
+                IsActive = part.IsActive
             };
         }
 

@@ -8,5 +8,7 @@ namespace GoodM8s.Basketball.Models {
         public virtual int? FiXiId { get; set; }
         public virtual DateTime? StartDate { get; set; }
         public virtual int? WeekOffset { get; set; }
+        public virtual int? RoundCount { get; set; }
+        public virtual bool IsActive { get; set; }
     }
 }

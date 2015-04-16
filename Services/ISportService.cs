@@ -6,7 +6,7 @@ using Orchard.ContentManagement;
 
 namespace GoodM8s.Basketball.Services {
     public interface ISportService : IBaseService<SportPart, SportPartRecord> {
-        IEnumerable<SportPart> GetBySeason(int seasonId);
+        IEnumerable<SportPart> GetBySeason(int seasonId, bool isActive);
         void UpdateForContentItem(IContent item, SportEditViewModel model);
     }
 }
