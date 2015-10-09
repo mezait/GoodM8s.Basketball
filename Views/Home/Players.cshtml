@@ -1,0 +1,25 @@
+﻿@model IEnumerable<GoodM8s.Basketball.Models.PlayerPart>
+<div class="goodm8s-basketball">
+    @Html.Partial("NavigationPartial")
+    <h2>
+        Players
+    </h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Player
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach (var player in Model.OrderBy(x => x.Number)) {
+            <tr>
+                <td>
+                    <a href="/player/@player.Id">#@player.Number - @player.FirstName @player.LastName</a>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>

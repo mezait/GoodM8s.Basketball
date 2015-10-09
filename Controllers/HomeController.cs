@@ -17,11 +17,13 @@ namespace GoodM8s.Basketball.Controllers {
         private readonly IGameService _gameService;
         private readonly ISeasonService _seasonService;
         private readonly ISportService _sportService;
+        private readonly IPlayerService _playerService;
 
-        public HomeController(IGameService gameService, ISeasonService seasonService, ISportService sportService) {
+        public HomeController(IGameService gameService, ISeasonService seasonService, ISportService sportService, IPlayerService playerService) {
             _gameService = gameService;
             _seasonService = seasonService;
             _sportService = sportService;
+            _playerService = playerService;
         }
 
         #region Private Methods
@@ -77,11 +79,8 @@ namespace GoodM8s.Basketball.Controllers {
                 return number.ToString(CultureInfo.InvariantCulture);
             }
 
-            switch (number%100) {
-                case 11:
-                case 12:
-                case 13:
-                    return number + "th";
+            if (number%100 == 11 || number%100 == 12 || number%100 == 13) {
+                return number + "th";
             }
 
             switch (number%10) {
@@ -152,7 +151,7 @@ namespace GoodM8s.Basketball.Controllers {
                     : m8Row["hometeamname"].ToString();
             }
 
-            return String.Empty;
+            return string.Empty;
         }
 
         /// <summary>
@@ -207,9 +206,7 @@ namespace GoodM8s.Basketball.Controllers {
                 sport.StartDate.GetValueOrDefault(),
                 sport.WeekOffset.GetValueOrDefault());
 
-            var roundNumber = round.HasValue
-                ? round.Value
-                : maxRoundNumber;
+            var roundNumber = round ?? maxRoundNumber;
 
             ViewBag.Id = sport.Id;
             ViewBag.Name = sport.Name;
@@ -237,9 +234,7 @@ namespace GoodM8s.Basketball.Controllers {
                 sport.StartDate.GetValueOrDefault(),
                 sport.WeekOffset.GetValueOrDefault());
 
-            var roundNumber = round.HasValue
-                ? round.Value
-                : maxRoundNumber;
+            var roundNumber = round ?? maxRoundNumber;
 
             ViewBag.Id = sport.Id;
             ViewBag.Name = sport.Name;
@@ -253,6 +248,96 @@ namespace GoodM8s.Basketball.Controllers {
             catch (Exception) {
                 return View("SmissError");
             }
+        }
+
+        public ActionResult Players() {
+            return View(_playerService.Get());
+        }
+
+        public ActionResult PlayerStatistics(int playerId) {
+            var player = _playerService.Get(playerId);
+            if (player == null)
+            {
+                return HttpNotFound();
+            }
+
+            ViewBag.Player = player;
+
+            var sports = _sportService.Get();
+            if (sports == null) {
+                return HttpNotFound();
+            }
+            
+            var totals = new Dictionary<SportPart, SportTotalsViewModel>();
+            var total = new SportTotalsViewModel();
+
+            foreach (var sport in sports) {
+                var games = _gameService.GetBySport(sport.Id);
+
+                if (games == null) {
+                    continue;
+                }
+
+                foreach (var game in games) {
+                    foreach (var statistic in game.GameStatistics.Where(statistic => player.Id == statistic.PlayerPartRecord.Id)) {
+                        if (!totals.ContainsKey(sport))
+                        {
+                            totals.Add(sport, new SportTotalsViewModel());
+                        }
+
+                        var fieldGoalsMade = statistic.FieldGoalsMade.GetValueOrDefault();
+                        var threeFieldGoalsMade = statistic.ThreeFieldGoalsMade.GetValueOrDefault();
+                        var freeThrowsMade = statistic.FreeThrowsMade.GetValueOrDefault();
+                        var personalFouls = statistic.PersonalFouls.GetValueOrDefault();
+                        var techFouls = statistic.TechFouls.GetValueOrDefault();
+
+                        totals[sport].GamesPlayed++;
+                        totals[sport].FieldGoalsMade += fieldGoalsMade;
+                        totals[sport].ThreeFieldGoalsMade += threeFieldGoalsMade;
+                        totals[sport].FreeThrowsMade += freeThrowsMade;
+                        totals[sport].PersonalFouls += personalFouls;
+                        totals[sport].TechFouls += techFouls;
+
+                        total.GamesPlayed++;
+                        total.FieldGoalsMade += fieldGoalsMade;
+                        total.ThreeFieldGoalsMade += threeFieldGoalsMade;
+                        total.FreeThrowsMade += freeThrowsMade;
+                        total.PersonalFouls += personalFouls;
+                        total.TechFouls += techFouls;
+
+                        if (fieldGoalsMade + threeFieldGoalsMade + freeThrowsMade == 0) {
+                            totals[sport].Donuts++;
+                            total.Donuts++;
+                        }
+
+                        if (personalFouls >= 5) {
+                            totals[sport].FoulOuts++;
+                            total.FoulOuts++;
+                        }
+                    }
+                }
+            }
+
+            var maxResults = new SportMaxViewModel
+            {
+                GamesPlayed = totals.Max(p => p.Value.GamesPlayed),
+                FieldGoalsMade = totals.Max(p => p.Value.FieldGoalsMade),
+                ThreeFieldGoalsMade = totals.Max(p => p.Value.ThreeFieldGoalsMade),
+                FreeThrowsMade = totals.Max(p => p.Value.FreeThrowsMade),
+                PersonalFouls = totals.Max(p => p.Value.PersonalFouls),
+                TechFouls = totals.Max(p => p.Value.TechFouls),
+                Donuts = totals.Max(p => p.Value.Donuts),
+                DonutPercentage = totals.Max(p => p.Value.DonutPercentage),
+                FoulsPerGame = totals.Max(p => p.Value.FoulsPerGame),
+                FoulOuts = totals.Max(p => p.Value.FoulOuts),
+                FoulOutsPercentage = totals.Max(p => p.Value.FoulOutsPercentage),
+                Points = totals.Max(p => p.Value.Points),
+                PointsPerGame = totals.Max(p => p.Value.PointsPerGame)
+            };
+
+            ViewBag.MaxResults = maxResults;
+            ViewBag.Total = total;
+            return View(totals); 
         }
 
         public ActionResult Statistics(int sportId, int? gameId) {
@@ -280,7 +365,7 @@ namespace GoodM8s.Basketball.Controllers {
                 {"fieldGoalsMade", null},
                 {"threeFieldGoalsMade", null},
                 {"freeThrowsMade", null},
-                {"points", null},
+                {"points", null}
             };
 
             if (games != null) {
@@ -298,6 +383,7 @@ namespace GoodM8s.Basketball.Controllers {
                         var threeFieldGoalsMade = statistic.ThreeFieldGoalsMade.GetValueOrDefault();
                         var freeThrowsMade = statistic.FreeThrowsMade.GetValueOrDefault();
                         var personalFouls = statistic.PersonalFouls.GetValueOrDefault();
+                        var techFouls = statistic.TechFouls.GetValueOrDefault();
                         var points = freeThrowsMade + (fieldGoalsMade*2) + (threeFieldGoalsMade*3);
 
                         players[player].GamesPlayed++;
@@ -305,6 +391,7 @@ namespace GoodM8s.Basketball.Controllers {
                         players[player].ThreeFieldGoalsMade += threeFieldGoalsMade;
                         players[player].FreeThrowsMade += freeThrowsMade;
                         players[player].PersonalFouls += personalFouls;
+                        players[player].TechFouls += techFouls;
 
                         if (fieldGoalsMade + threeFieldGoalsMade + freeThrowsMade == 0) {
                             players[player].Donuts++;
@@ -329,6 +416,7 @@ namespace GoodM8s.Basketball.Controllers {
                 ThreeFieldGoalsMade = players.Max(p => p.Value.ThreeFieldGoalsMade),
                 FreeThrowsMade = players.Max(p => p.Value.FreeThrowsMade),
                 PersonalFouls = players.Max(p => p.Value.PersonalFouls),
+                TechFouls = players.Max(p => p.Value.TechFouls),
                 Donuts = players.Max(p => p.Value.Donuts),
                 DonutPercentage = players.Max(p => p.Value.DonutPercentage),
                 FoulsPerGame = players.Max(p => p.Value.FoulsPerGame),
@@ -412,9 +500,9 @@ namespace GoodM8s.Basketball.Controllers {
                     Points = ladderRow["points"].ToString(),
                     Position = Ordinal((int) ladderRow["position"]),
                     SportId = sport.Id,
-                    Vs = vsRow != null ? vsRow["teamname"].ToString() : String.Empty,
-                    VsPoints = vsRow != null ? vsRow["points"].ToString() : String.Empty,
-                    VsPosition = vsRow != null ? Ordinal((int) vsRow["position"]) : String.Empty
+                    Vs = vsRow?["teamname"].ToString() ?? string.Empty,
+                    VsPoints = vsRow?["points"].ToString() ?? string.Empty,
+                    VsPosition = vsRow != null ? Ordinal((int) vsRow["position"]) : string.Empty
                 });
             }
 
@@ -432,9 +520,7 @@ namespace GoodM8s.Basketball.Controllers {
                 sport.StartDate.GetValueOrDefault(),
                 sport.WeekOffset.GetValueOrDefault());
 
-            var roundNumber = round.HasValue
-                ? round.Value
-                : maxRoundNumber;
+            var roundNumber = round ?? maxRoundNumber;
 
             string vsTeamName;
 
@@ -500,29 +586,31 @@ namespace GoodM8s.Basketball.Controllers {
 
                 var vs = VsScore(dataSet, vsTeamName);
 
-                if (!vs.Bye) {
-                    if (!compareViewModel.Scores.ContainsKey(vs.Name)) {
-                        var score = new Dictionary<string, IList<CompareScore>> {
-                            {
-                                vsTeamName, new List<CompareScore> {
-                                    vs.Score
-                                }
-                            }
-                        };
+                if (vs.Bye) {
+                    continue;
+                }
 
-                        compareViewModel.Scores.Add(vs.Name, score);
+                if (!compareViewModel.Scores.ContainsKey(vs.Name)) {
+                    var score = new Dictionary<string, IList<CompareScore>> {
+                        {
+                            vsTeamName, new List<CompareScore> {
+                                vs.Score
+                            }
+                        }
+                    };
+
+                    compareViewModel.Scores.Add(vs.Name, score);
+                }
+                else {
+                    var scores = compareViewModel.Scores[vs.Name];
+
+                    if (!scores.ContainsKey(vsTeamName)) {
+                        scores.Add(vsTeamName, new List<CompareScore> {
+                            vs.Score
+                        });
                     }
                     else {
-                        var scores = compareViewModel.Scores[vs.Name];
-
-                        if (!scores.ContainsKey(vsTeamName)) {
-                            scores.Add(vsTeamName, new List<CompareScore> {
-                                vs.Score
-                            });
-                        }
-                        else {
-                            scores[vsTeamName].Add(vs.Score);
-                        }
+                        scores[vsTeamName].Add(vs.Score);
                     }
                 }
             }

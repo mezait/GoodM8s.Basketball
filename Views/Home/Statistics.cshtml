@@ -54,6 +54,9 @@
                 <th class="warning">
                     <a href="#" data-toggle="tooltip" title="Foul Outs! :(">FO</a>
                 </th>
+                <th class="warning">
+                    <a href="#" data-toggle="tooltip" title="Tech fouls! :(">TF</a>
+                </th>
             </tr>
         </thead>
         <tbody>
@@ -90,12 +93,15 @@
                     <td class="warning">
                         @Html.Max(@Model[key].FoulOuts, (int)ViewBag.MaxResults.FoulOuts) (@Html.Max(@Model[key].FoulOutsPercentage, (decimal)ViewBag.MaxResults.FoulOutsPercentage))
                     </td>
+                    <td class="warning">
+                        @Html.Max(@Model[key].TechFouls, (int)ViewBag.MaxResults.TechFouls)
+                    </td>
                 </tr>
             }
         </tbody>
     </table>
     <h3>
-        Leaders
+        Single Game Leaders
     </h3>
     <table class="table">
         <tbody>

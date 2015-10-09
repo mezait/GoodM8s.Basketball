@@ -46,6 +46,7 @@ namespace GoodM8s.Basketball.Services {
                     statistic.FieldGoalsMade = statisticModel.FieldGoalsMade;
                     statistic.FreeThrowsMade = statisticModel.FreeThrowsMade;
                     statistic.PersonalFouls = statisticModel.PersonalFouls;
+                    statistic.TechFouls = statisticModel.TechFouls;
                     statistic.PlayerPartRecord = statisticModel.PlayerId.HasValue
                         ? _playerService.Get(statisticModel.PlayerId.Value).Record
                         : null;
@@ -69,6 +70,7 @@ namespace GoodM8s.Basketball.Services {
                         GamePartRecord = gamePart.Record,
                         Id = statistic.Id,
                         PersonalFouls = statistic.PersonalFouls,
+                        TechFouls = statistic.TechFouls,
                         PlayerPartRecord = statistic.PlayerId.HasValue
                             ? _playerService.Get(statistic.PlayerId.Value).Record
                             : null,

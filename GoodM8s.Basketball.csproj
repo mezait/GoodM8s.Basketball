@@ -20,6 +20,11 @@
     <UpgradeBackupLocation />
     <TargetFrameworkProfile />
     <UseIISExpress>false</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -45,6 +50,10 @@
       <HintPath>..\..\..\packages\BeginCollectionItem.1.2.1.0\lib\net35\BeginCollectionItem.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="sneakyresults">
       <HintPath>..\..\..\..\lib\fixi\sneakyresults.dll</HintPath>
     </Reference>
@@ -182,6 +191,8 @@
     <None Include="Placement.info" />
     <Content Include="Views\Home\PaginationPartial.cshtml" />
     <Content Include="Views\Home\SmissError.cshtml" />
+    <Content Include="Views\Home\Players.cshtml" />
+    <Content Include="Views\Home\PlayerStatistics.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <PropertyGroup>

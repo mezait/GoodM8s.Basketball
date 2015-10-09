@@ -32,6 +32,10 @@
             @Html.ValidationMessageFor(x => x.PersonalFouls)
         </td>
         <td>
+            @Html.EditorFor(x => x.TechFouls)
+            @Html.ValidationMessageFor(x => x.TechFouls)
+        </td>
+        <td>
             <a href="#" class="remove-statistic">Remove</a>
         </td>
     }

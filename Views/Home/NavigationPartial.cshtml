@@ -13,4 +13,6 @@
             {<text> class="active"</text>}><a href="/vs/@ViewBag.Id">Comparison</a> </li>
     <li @if (action == "overview")
             {<text> class="active"</text>}><a href="/overview/@ViewBag.Id">Overview</a> </li>
+    <li @if (action == "players" || action == "playerstatistics")
+        {<text> class="active" </text> }><a href="/players">Players</a> </li>
 </ul>

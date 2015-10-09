@@ -31,6 +31,7 @@ namespace GoodM8s.Basketball.Drivers {
                 PersonalFouls = gameStatistic.PersonalFouls,
                 PlayerId = gameStatistic.PlayerPartRecord.Id,
                 Players = players,
+                TechFouls = gameStatistic.TechFouls,
                 ThreeFieldGoalsMade = gameStatistic.ThreeFieldGoalsMade
             }).ToList();
 

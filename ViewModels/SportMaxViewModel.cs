@@ -5,6 +5,7 @@
         public int ThreeFieldGoalsMade { get; set; }
         public int FreeThrowsMade { get; set; }
         public int PersonalFouls { get; set; }
+        public double TechFouls { get; set; }
         public int Donuts { get; set; }
         public decimal DonutPercentage { get; set; }
         public double FoulsPerGame { get; set; }

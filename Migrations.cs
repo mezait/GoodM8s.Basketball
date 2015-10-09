@@ -83,5 +83,12 @@ namespace GoodM8s.Basketball {
 
             return 3;
         }
+
+        public int UpdateFrom3()
+        {
+            SchemaBuilder.AlterTable("GameStatisticRecord", table => table.AddColumn<int>("TechFouls"));
+
+            return 4;
+        }
     }
 }

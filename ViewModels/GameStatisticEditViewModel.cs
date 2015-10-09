@@ -14,6 +14,7 @@ namespace GoodM8s.Basketball.ViewModels {
         public int? ThreeFieldGoalsMade { get; set; }
         public int? FreeThrowsMade { get; set; }
         public int? PersonalFouls { get; set; }
+        public int? TechFouls { get; set; }
         public IEnumerable<PlayerPart> Players { get; set; }
     }
 }

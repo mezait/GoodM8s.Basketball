@@ -1,0 +1,124 @@
+﻿@using GoodM8s.Basketball.Helpers
+@model IDictionary<GoodM8s.Basketball.Models.SportPart, GoodM8s.Basketball.ViewModels.SportTotalsViewModel>
+<div class="goodm8s-basketball">
+    @Html.Partial("NavigationPartial")
+    <h2>
+        Statistics
+    </h2>
+    <h3>
+        #@ViewBag.Player.Number - @ViewBag.Player.FirstName @ViewBag.Player.LastName
+    </h3>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                </th>
+                <th>
+                    <a href="#" data-toggle="tooltip" title="Games played">GP</a>
+                </th>
+                <th>
+                    <a href="#" data-toggle="tooltip" title="Free throws made">FT</a>
+                </th>
+                <th>
+                    <a href="#" data-toggle="tooltip" title="Field goals made">FG</a>
+                </th>
+                <th>
+                    <a href="#" data-toggle="tooltip" title="Three point field goals made">3FG</a>
+                </th>
+                <th>
+                    <a href="#" data-toggle="tooltip" title="Personal fouls">PF</a>
+                </th>
+                <th>
+                    <a href="#" data-toggle="tooltip" title="Points total">PTS</a>
+                </th>
+                <th>
+                    <a href="#" data-toggle="tooltip" title="Points per game">PPG</a>
+                </th>
+                <th class="warning">
+                    <a href="#" data-toggle="tooltip" title="Donuts! :(">DNT</a>
+                </th>
+                <th class="warning">
+                    <a href="#" data-toggle="tooltip" title="Foul Outs! :(">FO</a>
+                </th>
+                <th class="warning">
+                    <a href="#" data-toggle="tooltip" title="Tech fouls! :(">TF</a>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var key in Model.Keys.OrderBy(x => x.StartDate))
+            {
+                <tr>
+                    <td>
+                        @key.Name
+                    </td>
+                    <td>
+                        @Html.Max(@Model[key].GamesPlayed, (int)ViewBag.MaxResults.GamesPlayed)
+                    </td>
+                    <td>
+                        @Html.Max(@Model[key].FreeThrowsMade, (int)ViewBag.MaxResults.FreeThrowsMade)
+                    </td>
+                    <td>
+                        @Html.Max(@Model[key].FieldGoalsMade, (int)ViewBag.MaxResults.FieldGoalsMade)
+                    </td>
+                    <td>
+                        @Html.Max(@Model[key].ThreeFieldGoalsMade, (int)ViewBag.MaxResults.ThreeFieldGoalsMade)
+                    </td>
+                    <td>
+                        @Html.Max(@Model[key].PersonalFouls, (int)ViewBag.MaxResults.PersonalFouls)
+                    </td>
+                    <td>
+                        @Html.Max(@Model[key].Points, (int)ViewBag.MaxResults.Points)
+                    </td>
+                    <td>
+                        @Html.Max(@Model[key].PointsPerGame, (double)ViewBag.MaxResults.PointsPerGame)
+                    </td>
+                    <td class="warning">
+                        @Html.Max(@Model[key].Donuts, (int)ViewBag.MaxResults.Donuts) (@Html.Max(@Model[key].DonutPercentage, (decimal)ViewBag.MaxResults.DonutPercentage))
+                    </td>
+                    <td class="warning">
+                        @Html.Max(@Model[key].FoulOuts, (int)ViewBag.MaxResults.FoulOuts) (@Html.Max(@Model[key].FoulOutsPercentage, (decimal)ViewBag.MaxResults.FoulOutsPercentage))
+                    </td>
+                    <td class="warning">
+                        @Html.Max(@Model[key].TechFouls, (int)ViewBag.MaxResults.TechFouls)
+                    </td>
+                </tr>
+            }
+        </tbody>
+        <tfoot>
+            <tr>
+                <th>Total</th>
+                <th>
+                    @ViewBag.Total.GamesPlayed
+                </th>
+                <th>
+                    @ViewBag.Total.FreeThrowsMade
+                </th>
+                <th>
+                    @ViewBag.Total.FieldGoalsMade
+                </th>
+                <th>
+                    @ViewBag.Total.ThreeFieldGoalsMade
+                </th>
+                <th>
+                    @ViewBag.Total.PersonalFouls
+                </th>
+                <th>
+                    @ViewBag.Total.Points
+                </th>
+                <th>
+                    @ViewBag.Total.PointsPerGame.ToString("0.00")
+                </th>
+                <th class="warning">
+                    @ViewBag.Total.Donuts (@ViewBag.Total.DonutPercentage.ToString("P"))
+                </th>
+                <th class="warning">
+                    @ViewBag.Total.FoulOuts (@ViewBag.Total.FoulOutsPercentage.ToString("P"))
+                </th>
+                <th class="warning">
+                    @ViewBag.Total.TechFouls
+                </th>
+            </tr>
+        </tfoot>
+    </table>
+</div>
