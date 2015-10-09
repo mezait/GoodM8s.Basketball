@@ -31,8 +31,11 @@ namespace GoodM8s.Basketball {
 
             builder.Add(T("Summary"), "2.1", item =>
                 item.Action("Summary", "Home", new {area = "GoodM8s.Basketball"}));
+            
+            builder.Add(T("Players"), "2.2", item =>
+                item.Action("Players", "Home", new { area = "GoodM8s.Basketball" }));
 
-            var index = 2;
+            var index = 3;
 
             foreach (var sport in _sportService.GetBySeason(season.Id, true)) {
                 var sportId = sport.Id;
