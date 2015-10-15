@@ -1,0 +1,8 @@
+﻿@{
+    var action = ViewContext.Controller.ValueProvider.GetValue("action").RawValue.ToString().ToLower();
+}
+<br />
+<ul class="nav nav-pills">
+    <li @if (action == "players") {
+            <text> class="active" </text>}><a href="/players">Players</a> </li>
+</ul>

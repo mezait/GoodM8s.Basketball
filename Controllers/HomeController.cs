@@ -357,6 +357,16 @@ namespace GoodM8s.Basketball.Controllers {
                 var game = games.SingleOrDefault(g => g.Id == gameId);
 
                 if (game != null) {
+                    if (game.Date != null) {
+                        ViewBag.GameDate = game.Date.Value.ToShortDateString();
+
+                        var imagePath = $"~/media/basketball/scores/{game.Date.Value.ToString("yyyyMMdd")}.jpg";
+
+                        if (System.IO.File.Exists(Server.MapPath(imagePath))) {
+                            ViewBag.ScoreCard = imagePath;
+                        }
+                    }
+
                     games = new List<GamePart> {game};
                 }
             }

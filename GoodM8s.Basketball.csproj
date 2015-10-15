@@ -193,6 +193,7 @@
     <Content Include="Views\Home\SmissError.cshtml" />
     <Content Include="Views\Home\Players.cshtml" />
     <Content Include="Views\Home\PlayerStatistics.cshtml" />
+    <Content Include="Views\Home\PlayerNavigationPartial.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <PropertyGroup>
