@@ -193,4 +193,13 @@
         </tr>
         </tbody>
     </table>
+    @if (!String.IsNullOrEmpty(ViewBag.Notes))
+    {
+        <h3>
+            Notes
+        </h3>
+        <p>
+            @ViewBag.Notes
+        </p>
+    }
 </div>

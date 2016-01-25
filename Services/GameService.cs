@@ -30,6 +30,7 @@ namespace GoodM8s.Basketball.Services {
 
             gamePart.Date = model.Date;
             gamePart.SportId = model.SportId;
+            gamePart.Notes = model.Notes;
 
             var oldStatistics = _gameStatisticService.GetByGame(gamePart.Id).ToList();
 

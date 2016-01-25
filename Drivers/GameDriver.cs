@@ -39,7 +39,8 @@ namespace GoodM8s.Basketball.Drivers {
                 Date = part.Date,
                 SportId = part.SportId,
                 Sports = _sportService.Get(),
-                GameStatistics = statistics
+                GameStatistics = statistics,
+                Notes = part.Notes
             };
         }
 

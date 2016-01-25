@@ -34,7 +34,7 @@
                         {
                             <ul>
                             @foreach (var score in Model.Scores[key]["GOODM8S"]) {
-                                <li>@Html.Score(score)</li>
+                                <li><a href="/statistics/@ViewBag.Id/@score.GameId">@Html.Score(score)</a></li>
                             }
                             </ul>
                         }

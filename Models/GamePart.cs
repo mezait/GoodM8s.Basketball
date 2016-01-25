@@ -33,5 +33,11 @@ namespace GoodM8s.Basketball.Models {
         public IList<GameStatisticRecord> GameStatistics {
             get { return Record.GameStatistics; }
         }
+
+        public string Notes
+        {
+            get { return Record.Notes; }
+            set { Record.Notes = value; }
+        }
     }
 }

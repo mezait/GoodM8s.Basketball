@@ -197,7 +197,7 @@ namespace GoodM8s.Basketball.Controllers {
 
         public ActionResult Fixtures(int sportId, int? round) {
             var sport = _sportService.Get(sportId);
-
+            
             if (sport == null) {
                 return HttpNotFound();
             }
@@ -367,6 +367,11 @@ namespace GoodM8s.Basketball.Controllers {
                         }
                     }
 
+                    if (!String.IsNullOrEmpty(game.Notes))
+                    {
+                        ViewBag.Notes = game.Notes;
+                    }
+
                     games = new List<GamePart> {game};
                 }
             }
@@ -526,6 +531,9 @@ namespace GoodM8s.Basketball.Controllers {
                 return HttpNotFound();
             }
 
+            var games = _gameService.GetBySport(sport.Id);
+            var gameIds = games.Select(g => g.Id).ToList();
+
             var maxRoundNumber = MaximumRoundNumber(
                 sport.StartDate.GetValueOrDefault(),
                 sport.WeekOffset.GetValueOrDefault());
@@ -549,6 +557,7 @@ namespace GoodM8s.Basketball.Controllers {
             ViewBag.VsTeam = vsTeamName;
 
             var compareViewModel = new CompareViewModel();
+            var byes = 0;
 
             for (var i = 1; i <= roundNumber - 1; i++) {
                 DataSet dataSet = null;
@@ -569,6 +578,8 @@ namespace GoodM8s.Basketball.Controllers {
                 var goodM8s = VsScore(dataSet, "GOODM8S");
 
                 if (!goodM8s.Bye) {
+                    goodM8s.Score.GameId = gameIds[i - byes - 1];
+
                     if (!compareViewModel.Scores.ContainsKey(goodM8s.Name)) {
                         var score = new Dictionary<string, IList<CompareScore>> {
                             {
@@ -593,10 +604,14 @@ namespace GoodM8s.Basketball.Controllers {
                         }
                     }
                 }
-
+                else
+                {
+                    byes++;
+                }
+                 
                 var vs = VsScore(dataSet, vsTeamName);
 
-                if (vs.Bye) {
+                if (vs == null || vs.Bye) {
                     continue;
                 }
 

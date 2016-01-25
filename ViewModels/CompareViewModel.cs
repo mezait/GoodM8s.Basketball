@@ -4,6 +4,7 @@ namespace GoodM8s.Basketball.ViewModels
 {
     public class CompareScore
     {
+        public int GameId { get; set; }
         public int For { get; set; }
         public int Against { get; set; }
     }

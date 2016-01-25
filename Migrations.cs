@@ -90,5 +90,21 @@ namespace GoodM8s.Basketball {
 
             return 4;
         }
+        
+        public int UpdateFrom4()
+        {
+            // Wrong, should be a string
+            SchemaBuilder.AlterTable("GamePartRecord", table => table.AddColumn<int>("Notes"));
+
+            return 5;
+        }
+
+        public int UpdateFrom5()
+        {
+            SchemaBuilder.AlterTable("GamePartRecord", table => table.DropColumn("Notes"));
+            SchemaBuilder.AlterTable("GamePartRecord", table => table.AddColumn<string>("Notes"));
+
+            return 6;
+        }
     }
 }

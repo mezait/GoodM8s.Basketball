@@ -13,5 +13,7 @@ namespace GoodM8s.Basketball.Models {
         public virtual DateTime? Date { get; set; }
 
         public virtual IList<GameStatisticRecord> GameStatistics { get; set; }
+
+        public virtual string Notes { get; set; }
     }
 }

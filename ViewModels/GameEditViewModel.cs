@@ -15,5 +15,7 @@ namespace GoodM8s.Basketball.ViewModels {
 
         public IEnumerable<SportPart> Sports { get; set; }
         public IEnumerable<GameStatisticEditViewModel> GameStatistics { get; set; }
+
+        public string Notes { get; set; }
     }
 }
